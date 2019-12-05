@@ -4,17 +4,17 @@ import scapy.all
 import os
 import time
 import uuid
+import logging
 
 from scapy.all import conf
-from scapy.all import AsyncSniffer, sniff, send, sendp, sr1, sr, srp1
-from scapy.layers.inet import Ether, IP, UDP, ICMP
+from scapy.all import AsyncSniffer, send
+from scapy.layers.inet import Ether, IP, ICMP
 from time import sleep
-from random import randint, random
-from threading import Thread, Lock
+from random import randint
+from threading import Thread
 from datetime import datetime
-from math import sqrt
-
 from enum import IntEnum
+from network_log.logger import Logging
 
 
 class Statistic(IntEnum):
@@ -25,9 +25,17 @@ class Statistic(IntEnum):
     MED_DSN = 100
 
 
-class VehicleAgent(object):
+class VehicleAgent:
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        if 'args' not in kwargs:
+            raise ValueError('Args need to be specified. Use -h to verify that.')
+        self.args = kwargs.pop('args')
+        path = self.args['path']
+        if path is None:
+            path = '/home/wifi/tcc/SDVANETS/rsc/'
+        self.log = Logging(path=path, filename='sim-x.log',
+                           log=self.args['log'])  # setup log file location
         self.start_tx_time = 2  # sec
         # self.tx_port = 2570  # connection port to send broadcast messages
         # self.rx_port = 7025  # connection port to receive broadcast messages
@@ -45,6 +53,9 @@ class VehicleAgent(object):
         self.id = 0  # Initial ID for message
         self.DSN_FLAG = 0  # Current status of density flag
         self.CNG_FLAG = 0  # Current status of congestion flag
+        self.runtime_packets = dict()  # Register the packets received during the simulation
+
+        logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # suppress scapy warnings
 
     def start_agent(self):
         '''
@@ -53,54 +64,61 @@ class VehicleAgent(object):
         '''
         self.get_ifaces_config()  # set iface and ifaces_ip values
         self.mount_broadcast_address()  # make all broadcast addresses
+        self.log.config_log(self.ifaces_names[0].split('-')[0])
+        iteration_count = 0
 
-        while True:
-            sleep_time = randint(3, 5) - self.start_tx_time
-            print("Waiting for %d sec before transmitting" % sleep_time)
-            sleep(sleep_time)
-            threads = []
-            for fnc in (self.broadcast, self.assync_monitoring):
-                process = Thread(target=fnc)
-                process.start()
-                threads.append(process)
+        try:
+            self.log.log("Entered the simulation", 'info', self.args['m'])
+            while True:
+                sleep_time = randint(3, 5) - self.start_tx_time
+                sleep(sleep_time)  # wait time to transmit
+                threads = []
+                for fnc in (self.broadcast, self.assync_monitoring):
+                    process = Thread(target=fnc)
+                    process.start()
+                    threads.append(process)
 
-            for process in threads:
-                process.join(timeout=3)
+                for process in threads:
+                    process.join(timeout=3)
 
-            # Time for receive packets
-            sleep(randint(3, 5))
-            for process in self.monitor_threads:
-                # process.join(timeout=5) # if you specify how many packets do you want to collect use this
-                result = process.stop()
-                self.network_status.append(process.results)
-                self.receiver_packets += len(process.results)
-                # print(result)
-                if result is not None:
-                    for raw_packet in result:
-                        if raw_packet[IP].src not in self.ifaces_ip:
-                            # raw_packet.show()
-                            if raw_packet[Ether].src not in self.neighbors:
-                                # print("New neighbor added %s" % raw_packet[Ether].src)
-                                self.add_neighbor(raw_packet[Ether].src)  # MAC Address
-                            print(self.ifaces_names[0].split('-')[0], end='\t')  # My Address
-                            # print(raw_packet[IP].src, end='\t')  # IP Address
-                            # print()
-                            print(raw_packet[ICMP].load)  # Data
-                print("Total received packets at this iteration : %d" % self.receiver_packets)
-            self.network_status = []
+                # Time for receive packets
+                sleep(randint(3, 5))
+                for process in self.monitor_threads:
+                    # process.join(timeout=5) # if you specify how many packets do you want to collect use this
+                    result = process.stop()
+                    self.network_status.append(process.results)
+                    self.receiver_packets += len(process.results)
+                    self.log.log(result, 'debug', self.args['d'])  # log the amount of received packets
+                    if result is not None:
+                        for raw_packet in result:
+                            if raw_packet[IP].src not in self.ifaces_ip:
+                                if raw_packet[Ether].src not in self.neighbors:
+                                    self.log.log("New neighbor added %s" % raw_packet[Ether].src, 'info',
+                                                 self.args['n'])
+                                    self.add_neighbor(raw_packet[Ether].src)  # MAC Address
+                                self.runtime_packets_log(packet=raw_packet)
+                    msg = "Total received packets at iteration %d : %d" % (iteration_count, self.receiver_packets)
+                    self.log.log(msg, 'info', flag=self.args['r'])
+                self.network_status = []
 
-            # Start timeout for neighbors
-            for neighbor in self.neighbors:
-                process = Thread(target=self.update_neighbor, args=[neighbor])
-                process.start()
+                # Start timeout for neighbors
+                for neighbor in self.neighbors:
+                    process = Thread(target=self.update_neighbor, args=[neighbor])
+                    process.start()
 
-            # Flags updates
-            for target in (self.congestion(), self.density(), self.verify_density_packets()):
-                process = Thread(target=target)
-                process.start()
+                # Flags updates
+                for target in (self.congestion(), self.density(), self.verify_density_packets()):
+                    process = Thread(target=target)
+                    process.start()
 
-            # self.verify_density_packets()
-            self.receiver_packets = 0
+                self.receiver_packets = 0
+                iteration_count += 1
+        except (KeyboardInterrupt, SystemExit):
+            self.log.log("Leave the simulation", 'info', self.args['m'])
+            exit(0)
+        except Exception:
+            self.log.log("VehicleAgent stops by unknown error", 'error', self.args['e'])
+            exit(0)
 
     def get_ifaces_config(self):
         '''
@@ -121,8 +139,7 @@ class VehicleAgent(object):
         :return: none
         '''
         for src, dst, iface in zip(self.ifaces_ip, self.broadcast_addresses, self.ifaces_names):
-            # print("Sending for address %s." % address)
-            print("Sending into iface: %s." % iface)
+            self.log.log("Sending into iface: %s." % iface, 'info', self.args['s'])
             send(self.build_own_packet(src=src, dst=dst), iface=iface, count=self.broadcast_count,
                  verbose=0)
 
@@ -135,10 +152,8 @@ class VehicleAgent(object):
         :return: none
         '''
         if len(self.ifaces_names) != 0:
-            print("Assynchronous monitoring start")
             self.monitor_threads = []
             for name, ip in zip(self.ifaces_names, self.ifaces_ip):
-                # print("\tInterface %s %s" % (name, ip))
                 monitor_process = AsyncSniffer(iface=name, filter='icmp and not host %s' % ip)
                 monitor_process.start()
                 self.monitor_threads.append(monitor_process)
@@ -174,7 +189,7 @@ class VehicleAgent(object):
         '''
         self.neighbors.append(neighbor)
         self.neighbors_timeout.update([(neighbor, randint(5, 7))])
-        print("Neighbors %d." % len(self.neighbors))
+        self.log.log("Neighbors %d." % len(self.neighbors), 'info', self.args['n'])
 
     def update_neighbor(self, neighbor):
         '''
@@ -184,15 +199,22 @@ class VehicleAgent(object):
         '''
         try:
             while self.neighbors_timeout[neighbor] >= 1:
-                # print("Process id %s" % os.getpid())
-                sleep(1)
+                sleep(1)  # wait 1 second
                 self.neighbors_timeout[neighbor] -= 1
-                # print("Neighbor %s | Timeout %d" % (neighbor, self.neighbors_timeout[neighbor]))
             self.neighbors.remove(neighbor)
-            del self.neighbors_timeout[neighbor]
+            self.neighbors_timeout.pop(neighbor)
         except KeyError as kex:
             pass
-            # print("Key %s was already removed. " % kex)
+
+            # self.log.log("Key %s was already removed. " % kex, 'warn')
+
+    def runtime_packets_log(self, packet):
+        icmp_load = packet[ICMP].load
+        if icmp_load in self.runtime_packets:
+            self.runtime_packets[icmp_load] += 1
+        else:
+            self.runtime_packets[icmp_load] = 1
+            self.log.log('new update message received %s' % icmp_load, 'info', self.args['r'])
 
     def build_message(self):
         '''
@@ -206,15 +228,10 @@ class VehicleAgent(object):
                                        self.CNG_FLAG,
                                        timestamp)
         self.id += 1
-        print("My message will be : {%s}" % message)
         return "{%s}" % message
 
     def generate_message_id(self):
         return "<%s-%d>" % (self.ifaces_names[0].split('-')[0], self.id)
-
-    # @staticmethod
-    # def connectivity(self):
-    #     return 1
 
     def density(self):
         if len(self.neighbors) >= Statistic.DSN:

@@ -15,9 +15,11 @@ if __name__ == '__main__':
     parser.add_argument('-w', action='store_true', help='Log warning messages')
     parser.add_argument('--critical', action='store_true', help='Log critical messages')
     parser.add_argument('--path', nargs='?', const=str)
+    # parser.add_argument('--car', nargs='?')
 
     args = parser.parse_args()
     d_args = vars(args)
-    # print(d_args)
+    # print(type(d_args['car']))
 
-    VehicleAgent(args=d_args).start_agent()
+    va = VehicleAgent(args=d_args)
+    va.start_agent()

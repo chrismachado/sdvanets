@@ -19,7 +19,7 @@ class Logging:
             logging.basicConfig(filename=filename, format=self.str_form)
             self.logger = None
 
-        except FileNotFoundError:
+        except IOError:
             print('No such file or directory: %s' % filename)
             exit(0)
 

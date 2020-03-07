@@ -1,10 +1,7 @@
 # coding: utf-8
 import scapy.all
-import os
 import time
-import uuid
 import logging
-import ipaddress
 
 from scapy.all import conf
 from scapy.all import AsyncSniffer, send
@@ -12,12 +9,10 @@ from scapy.layers.inet import Ether, IP, ICMP
 from time import sleep
 from random import randint
 from threading import Thread
-from datetime import datetime
 from enum import IntEnum
 from network_log.logger import Logging
-from network_com.subnetutils import SubnetUtils
-from mn_wifi.net import Car
-
+from utils.subnetutils import SubnetUtils
+from utils.fileutils import FileUtils
 
 
 class Statistic(IntEnum):
@@ -55,6 +50,8 @@ class VehicleAgent:
         self.CNG_FLAG = 0  # Current status of congestion flag
         self.runtime_packets = dict()  # Register the packets received during the simulation
         self.car = None
+        self.file_utils = None
+        self.is_safety = False
 
         logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # suppress scapy warnings
 
@@ -66,12 +63,15 @@ class VehicleAgent:
         self.get_ifaces_config()  # set iface and ifaces_ip values
         self.mount_broadcast_address()  # make all broadcast addresses
         self.config_log_features()
-        iteration_count = 0
 
+        iteration_count = 0
+        currpos = self.file_utils.read_pos()
         try:
             self.log.log("Entered the simulation", 'info', self.args['m'])
+
             while True:
-                print(self.car.params['position'])
+                # if self.car.params['position']:
+                #     self.log.log("Current car position %s " % self.car.params['position'], 'info', self.args['d'])
                 sleep_time = randint(3, 5) - self.start_tx_time
                 sleep(sleep_time)  # wait time to transmit
                 threads = []
@@ -116,11 +116,14 @@ class VehicleAgent:
 
                 self.receiver_packets = 0
                 iteration_count += 1
+                self.verify_safety(currpos=currpos, newpos=self.file_utils.read_pos())
+
         except (KeyboardInterrupt, SystemExit):
             self.log.log("Leave the simulation", 'info', self.args['m'])
             exit(0)
-        except Exception:
-            self.log.log("VehicleAgent stops by unknown error", 'error', self.args['e'])
+        except Exception as e:
+            self.log.log("VehicleAgent stops by unknown error\n%s" % e.message, 'error', self.args['e'])
+
             exit(0)
 
     def get_ifaces_config(self):
@@ -236,7 +239,7 @@ class VehicleAgent:
         if self.car is None:
             file_name = 'car.log'
         else:
-            file_name = self.car + '.log'
+            file_name = self.car.name + '.log'
         # file_name = self.ifaces_names[0].split('-')[0]
         path = self.args['path']
         if path is None:
@@ -245,18 +248,25 @@ class VehicleAgent:
                            log=self.args['log'])  # setup log file location
         self.log.config_log(logger_name=file_name)
 
+        self.file_utils = FileUtils(car=self.ifaces_names[0].split('-')[0], path="%s/%s/" % (path, "car_pos"))
+
     def build_message(self):
         """
         Create message by using the id, flags and timestamp.
         :return: string
         """
+        if self.is_safety:
+            # self.CNG_FLAG = 1
+            return "{},{},CNG={}".format("SAFETY", self.file_utils.read_pos(), 1)
+
         # timestamp = datetime.timestamp(datetime.now())
         timestamp = time.time()
         # [ID, DSN, CNG, TIMESTAMP]
-        message = "{},{},{},{}".format(self.generate_message_id(),
-                                       self.DSN_FLAG,
-                                       self.CNG_FLAG,
-                                       timestamp)
+        message = "{},{},{},{},{}".format(self.generate_message_id(),
+                                          self.DSN_FLAG,
+                                          self.CNG_FLAG,
+                                          self.file_utils.read_pos(),
+                                          timestamp)
         self.id += 1
         return "{%s}" % message
 
@@ -282,6 +292,11 @@ class VehicleAgent:
             self.broadcast_count = 50
         elif self.receiver_packets > Statistic.MED_DSN:
             self.broadcast_count = 20
+
+    def verify_safety(self, currpos, newpos):
+        print(currpos, " == ", newpos)
+        if currpos == newpos:
+            self.is_safety = True
 
     def setCar(self, car):
         self.car = car

@@ -34,5 +34,5 @@ if __name__ == '__main__':
         if _r[4] != '127.0.0.1':
             print(_r[3], "   ", _r[0])
     netmask_int = 4294901760
-    from network_com.subnetutils import SubnetUtils
+    from utils.subnetutils import SubnetUtils
     print(SubnetUtils(netmask=netmask_int).int_to_dotted_string())

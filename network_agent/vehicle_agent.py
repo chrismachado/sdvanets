@@ -297,6 +297,8 @@ class VehicleAgent:
         print(currpos, " == ", newpos)
         if currpos == newpos:
             self.is_safety = True
+        else:
+            self.is_safety = False
 
     def setCar(self, car):
         self.car = car

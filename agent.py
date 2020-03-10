@@ -1,6 +1,7 @@
+# coding: utf-8
 from network_agent.vehicle_agent import VehicleAgent
 import argparse
-import sys
+import os
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Sending and monitoring messages in vehicle ad-hoc network (VANET). "
@@ -14,12 +15,22 @@ if __name__ == '__main__':
     parser.add_argument('-d', action='store_true', help='Log debug messages')
     parser.add_argument('-w', action='store_true', help='Log warning messages')
     parser.add_argument('--critical', action='store_true', help='Log critical messages')
-    parser.add_argument('--path', nargs='?', const=str)
-    # parser.add_argument('--car', nargs='?')
+    parser.add_argument('--path', nargs='?', const=str, help="Root path for save files")
+    parser.add_argument('--no-keep', dest='keep', action='store_false',
+                        help='Don\'t Keep an existent car log or car position file')
+    parser.set_defaults(keep=False)
 
     args = parser.parse_args()
     d_args = vars(args)
-    # print(type(d_args['car']))
+    # print(d_args)
+
+    if not d_args['keep']:
+        abspath = os.path.abspath('./rsc')
+        car_pos_list = os.listdir('%s/car_pos' % abspath)
+        for item in car_pos_list:
+            if item.endswith('.txt'):
+                os.remove('%s/car_pos/%s' % (abspath, item))
+                print('Removing %s/car_pos/%s' % (abspath, item))
 
     va = VehicleAgent(args=d_args)
     va.start_agent()

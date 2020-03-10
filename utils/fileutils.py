@@ -1,8 +1,7 @@
 from time import sleep
-from threading import Thread
 
 
-class FileUtils():
+class FileUtils:
     def __init__(self, **kwargs):
         # Thread.__init__(self)
         if "path" not in kwargs:
@@ -30,13 +29,6 @@ class FileUtils():
             last_line = f.read().splitlines()[-1]
 
         return last_line
-
-    # @staticmethod
-    # def read_pos(path):
-    #     with open(path, 'r') as f:
-    #         last_line = f.read().splitlines()[-1]
-    #
-    #     return last_line
 
     def write_forever(self, stop):
         while True:

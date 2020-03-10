@@ -27,7 +27,7 @@ def topology():
 
     info("*** Creating nodes\n")
     cars = []
-    for id in range(0, 7):
+    for id in range(0, 13):
         cars.append(net.addCar('car%s' % (id + 1), wlans=2, encrypt='wpa2,'))
 
     e1 = net.addAccessPoint('e1', ssid='vanet-ssid', mac='00:00:00:11:00:01',
@@ -51,7 +51,7 @@ def topology():
     c1 = net.addController('c1')
 
     info("*** Configuring Propagation Model\n")
-    net.setPropagationModel(model="logDistance", exp=4.5)
+    net.setPropagationModel(model="logDistance", exp=5.8)
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
@@ -87,9 +87,9 @@ def topology():
     # Track the position of the nodes
     # nodes = net.cars + net.aps
     nodes = net.cars
-    # net.telemetry(nodes=nodes, data_type='position',
-    #              min_x=0, min_y=0,
-    #              max_x=500, max_y=500)
+    net.telemetry(nodes=nodes, data_type='position',
+                 min_x=0, min_y=0,
+                 max_x=215, max_y=215)
 
     stop_threads = False
     uthreads = []

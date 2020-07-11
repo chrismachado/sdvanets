@@ -7,6 +7,7 @@ class DeciderManager(object):
     def compare(self, deciders, hour=None):
         best = deciders[0]
         for decider in deciders[1:]:
+            print("%s: %f < %s: %f" % (best.name, best.eval(hour=hour), decider.name, decider.eval(hour=hour)))
             if best.eval(hour=hour) < decider.eval(hour=hour):
                 best = decider
         return best

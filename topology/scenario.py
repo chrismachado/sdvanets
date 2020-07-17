@@ -95,9 +95,9 @@ def topology():
     uthreads = []
     for node in nodes:
         futils = FileUtils(car=node, path="%s/%s/" % ("/home/wifi/tcc/SDVANETS/rsc", "car_pos"))
-        uthreads.append(Thread(target=futils.write_forever, args=(lambda: stop_threads,)))
-        uthreads[-1].daemon = True
-        uthreads[-1].start()
+        # uthreads.append(Thread(target=futils.write_forever, args=(lambda: stop_threads,)))
+        # uthreads[-1].daemon = True
+        # uthreads[-1].start()
 
     info("*** Running CLI\n")
     CLI_wifi(net)
@@ -106,9 +106,9 @@ def topology():
     net.stop()
 
     # functions to stop threads
-    stop_threads = True
-    for uthread in uthreads:
-        uthread.join()
+    # stop_threads = True
+    # for uthread in uthreads:
+    #     uthread.join()
 
 
 if __name__ == '__main__':

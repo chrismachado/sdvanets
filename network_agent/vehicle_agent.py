@@ -262,9 +262,10 @@ class VehicleAgent:
         # timestamp = datetime.timestamp(datetime.now())
         timestamp = time.time()
         # [ID, DSN, CNG, TIMESTAMP]
-        message = "{},{},{}".format(self.generate_message_id(),
+        message = "{},{},{},{}".format(self.generate_message_id(),
                                           # self.file_utils.read_pos(),
                                           'position',
+                                          len(self.neighbors),
                                           timestamp)
         self.id += 1
         return "{%s}" % message

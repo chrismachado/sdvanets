@@ -10,7 +10,7 @@ sumo-gui"""
 from mininet.node import Controller
 from mininet.log import setLogLevel, info
 from mn_wifi.node import UserAP
-from mn_wifi.cli import CLI_wifi
+from mn_wifi.cli import CLI
 from mn_wifi.net import Mininet_wifi
 from mn_wifi.sumo.runner import sumo
 from mn_wifi.link import wmediumd, mesh
@@ -21,8 +21,7 @@ from utils.fileutils import FileUtils
 
 def topology():
     "Create a network."
-    net = Mininet_wifi(set_socket_ip='127.0.0.1', set_socket_port=38888,
-                       controller=Controller, accessPoint=UserAP,
+    net = Mininet_wifi(controller=Controller, accessPoint=UserAP,
                        link=wmediumd, wmediumd_mode=interference)
 
     info("*** Creating nodes\n")
@@ -100,7 +99,7 @@ def topology():
         # uthreads[-1].start()
 
     info("*** Running CLI\n")
-    CLI_wifi(net)
+    CLI(net)
 
     info("*** Stopping network\n")
     net.stop()

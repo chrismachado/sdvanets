@@ -24,13 +24,13 @@ if __name__ == '__main__':
     d_args = vars(args)
     # print(d_args)
 
-    if not d_args['keep']:
-        abspath = os.path.abspath('./rsc')
-        car_pos_list = os.listdir('%s/car_pos' % abspath)
-        for item in car_pos_list:
-            if item.endswith('.txt'):
-                os.remove('%s/car_pos/%s' % (abspath, item))
-                print('Removing %s/car_pos/%s' % (abspath, item))
+    # if not d_args['keep']:
+    #     abspath = os.path.abspath('./rsc')
+    #     car_pos_list = os.listdir('%s/car_pos' % abspath)
+    #     for item in car_pos_list:
+    #         if item.endswith('.txt'):
+    #             os.remove('%s/car_pos/%s' % (abspath, item))
+    #             print('Removing %s/car_pos/%s' % (abspath, item))
 
     va = VehicleAgent(args=d_args)
     va.start_agent()

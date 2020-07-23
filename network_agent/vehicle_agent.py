@@ -65,7 +65,7 @@ class VehicleAgent:
         self.config_log_features()
 
         iteration_count = 0
-        currpos = self.file_utils.read_pos()
+        # currpos = self.file_utils.read_pos()
         try:
             self.log.log("Entered the simulation", 'info', self.args['m'])
 
@@ -116,7 +116,7 @@ class VehicleAgent:
 
                 self.receiver_packets = 0
                 iteration_count += 1
-                self.verify_safety(currpos=currpos, newpos=self.file_utils.read_pos())
+                # self.verify_safety(currpos=currpos, newpos=self.file_utils.read_pos())
 
         except (KeyboardInterrupt, SystemExit):
             self.log.log("Leave the simulation", 'info', self.args['m'])
@@ -243,7 +243,7 @@ class VehicleAgent:
         # file_name = self.ifaces_names[0].split('-')[0]
         path = self.args['path']
         if path is None:
-            path = '/home/wifi/tcc/SDVANETS/rsc/'
+            path = '/home/ubuntu/SDVANETS/rsc/'
         self.log = Logging(path=path, filename=file_name,
                            log=self.args['log'])  # setup log file location
         self.log.config_log(logger_name=file_name)

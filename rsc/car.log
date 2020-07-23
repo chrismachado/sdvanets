@@ -1,0 +1,8 @@
+2020-07-23 20:49:16,659  car.log INFO Entered the simulation
+2020-07-23 20:49:18,662  car.log INFO Sending into iface: car1-mp1.
+2020-07-23 20:49:21,740  car.log INFO Total received packets at iteration 0 : 0
+2020-07-23 20:49:23,744  car.log INFO Sending into iface: car1-mp1.
+2020-07-23 20:49:25,223  car.log INFO Leave the simulation
+2020-07-23 20:49:47,281  car.log INFO Entered the simulation
+2020-07-23 20:49:48,284  car.log INFO Sending into iface: enp0s3.
+2020-07-23 20:49:51,169  car.log INFO Leave the simulation

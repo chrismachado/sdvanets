@@ -2,6 +2,7 @@
 import scapy.all
 import time
 import logging
+import os
 
 from scapy.all import conf
 from scapy.all import AsyncSniffer, send
@@ -236,19 +237,18 @@ class VehicleAgent:
         Configure log class with parameters.
         :return: none
         """
-        if self.car is None:
-            file_name = 'car.log'
-        else:
-            file_name = self.car.name + '.log'
-        # file_name = self.ifaces_names[0].split('-')[0]
+        filename = self.args['filename']
+        if filename is None:
+            filename = 'default-log-name'
         path = self.args['path']
         if path is None:
-            path = '/home/ubuntu/SDVANETS/rsc/'
-        self.log = Logging(path=path, filename=file_name,
+            # path = "%s/log_files/" % os.path.dirname(os.path.normpath(os.getcwd()))
+            path = "%s/log_files/" % os.getcwd()
+        self.log = Logging(path=path, filename='%s.log' % filename,
                            log=self.args['log'])  # setup log file location
-        self.log.config_log(logger_name=file_name)
+        self.log.config_log(logger_name=filename)
 
-        self.file_utils = FileUtils(car=self.ifaces_names[0].split('-')[0], path="%s/%s/" % (path, "car_pos"))
+        # self.file_utils = FileUtils(car=self.ifaces_names[0].split('-')[0], path="%s/%s/" % (path, "car_pos"))
 
     def build_message(self):
         """

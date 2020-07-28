@@ -1,0 +1,188 @@
+2020-07-28 13:19:21,184  rsu2 INFO Entered the simulation
+2020-07-28 13:19:22,186  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:19:26,255  rsu2 INFO Total received packets at iteration 0 : 0
+2020-07-28 13:19:28,256  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:19:31,322  rsu2 INFO Total received packets at iteration 1 : 0
+2020-07-28 13:19:34,327  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:19:37,398  rsu2 INFO Total received packets at iteration 2 : 0
+2020-07-28 13:19:39,404  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:19:43,490  rsu2 INFO Total received packets at iteration 3 : 0
+2020-07-28 13:19:45,492  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:19:50,550  rsu2 INFO Total received packets at iteration 4 : 0
+2020-07-28 13:19:52,554  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:19:57,622  rsu2 INFO Total received packets at iteration 5 : 0
+2020-07-28 13:19:59,626  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:03,686  rsu2 INFO Total received packets at iteration 6 : 0
+2020-07-28 13:20:05,689  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:10,765  rsu2 INFO Total received packets at iteration 7 : 0
+2020-07-28 13:20:11,767  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:14,834  rsu2 INFO Total received packets at iteration 8 : 0
+2020-07-28 13:20:15,838  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:18,902  rsu2 INFO Total received packets at iteration 9 : 0
+2020-07-28 13:20:20,905  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:23,962  rsu2 INFO Total received packets at iteration 10 : 0
+2020-07-28 13:20:26,970  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:32,049  rsu2 INFO Total received packets at iteration 11 : 0
+2020-07-28 13:20:35,051  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:38,114  rsu2 INFO Total received packets at iteration 12 : 0
+2020-07-28 13:20:39,120  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:42,183  rsu2 INFO Total received packets at iteration 13 : 0
+2020-07-28 13:20:45,184  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:49,270  rsu2 INFO Total received packets at iteration 14 : 0
+2020-07-28 13:20:50,275  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:53,358  rsu2 INFO Total received packets at iteration 15 : 0
+2020-07-28 13:20:55,364  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:20:59,446  rsu2 INFO Total received packets at iteration 16 : 0
+2020-07-28 13:21:01,449  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:06,030  rsu2 INFO Total received packets at iteration 17 : 0
+2020-07-28 13:21:08,036  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:13,279  rsu2 INFO Total received packets at iteration 18 : 0
+2020-07-28 13:21:14,283  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:18,362  rsu2 INFO Total received packets at iteration 19 : 0
+2020-07-28 13:21:19,367  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:23,554  rsu2 INFO Total received packets at iteration 20 : 0
+2020-07-28 13:21:24,557  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:29,642  rsu2 INFO Total received packets at iteration 21 : 0
+2020-07-28 13:21:32,645  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:37,700  rsu2 INFO Total received packets at iteration 22 : 0
+2020-07-28 13:21:39,706  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:44,787  rsu2 INFO New neighbor added 02:00:00:00:0d:00
+2020-07-28 13:21:44,787  rsu2 INFO Neighbors 1.
+2020-07-28 13:21:44,787  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car7-21>,position,1,1595953299.9470465}' 
+2020-07-28 13:21:44,850  rsu2 INFO new update message received b'{<car7-21>,position,1,1595953299.9470465}'
+2020-07-28 13:21:44,850  rsu2 INFO New neighbor added 02:00:00:00:05:00
+2020-07-28 13:21:44,850  rsu2 INFO Neighbors 2.
+2020-07-28 13:21:44,850  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car3-22>,position,7,1595953300.6507943}' 
+2020-07-28 13:21:44,933  rsu2 INFO new update message received b'{<car3-22>,position,7,1595953300.6507943}'
+2020-07-28 13:21:44,933  rsu2 INFO Total received packets at iteration 23 : 2
+2020-07-28 13:21:47,938  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:51,025  rsu2 INFO New neighbor added 02:00:00:00:07:00
+2020-07-28 13:21:51,025  rsu2 INFO Neighbors 2.
+2020-07-28 13:21:51,026  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car4-24>,position,2,1595953309.1531558}' 
+2020-07-28 13:21:51,112  rsu2 INFO new update message received b'{<car4-24>,position,2,1595953309.1531558}'
+2020-07-28 13:21:51,112  rsu2 INFO Total received packets at iteration 24 : 1
+2020-07-28 13:21:54,114  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:21:57,210  rsu2 INFO New neighbor added 02:00:00:00:07:00
+2020-07-28 13:21:57,210  rsu2 INFO Neighbors 1.
+2020-07-28 13:21:57,210  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car4-25>,position,0,1595953314.2364838}' 
+2020-07-28 13:21:57,274  rsu2 INFO new update message received b'{<car4-25>,position,0,1595953314.2364838}'
+2020-07-28 13:21:57,275  rsu2 INFO Total received packets at iteration 25 : 1
+2020-07-28 13:22:00,280  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:04,351  rsu2 INFO Total received packets at iteration 26 : 0
+2020-07-28 13:22:07,354  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:11,714  rsu2 INFO New neighbor added 02:00:00:00:0d:00
+2020-07-28 13:22:11,714  rsu2 INFO Neighbors 1.
+2020-07-28 13:22:11,715  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car7-26>,position,3,1595953330.1107192}' 
+2020-07-28 13:22:11,802  rsu2 INFO new update message received b'{<car7-26>,position,3,1595953330.1107192}'
+2020-07-28 13:22:11,802  rsu2 INFO Total received packets at iteration 27 : 1
+2020-07-28 13:22:14,806  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:19,886  rsu2 INFO New neighbor added 02:00:00:00:0f:00
+2020-07-28 13:22:19,887  rsu2 INFO Neighbors 1.
+2020-07-28 13:22:19,887  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car8-28>,position,0,1595953337.3464882}' 
+2020-07-28 13:22:19,974  rsu2 INFO new update message received b'{<car8-28>,position,0,1595953337.3464882}'
+2020-07-28 13:22:19,974  rsu2 INFO Total received packets at iteration 28 : 1
+2020-07-28 13:22:21,978  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:25,538  rsu2 INFO Total received packets at iteration 29 : 0
+2020-07-28 13:22:26,541  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:29,874  rsu2 INFO New neighbor added 02:00:00:00:13:00
+2020-07-28 13:22:29,874  rsu2 INFO Neighbors 1.
+2020-07-28 13:22:29,874  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car10-29>,position,1,1595953348.616415}' 
+2020-07-28 13:22:29,946  rsu2 INFO new update message received b'{<car10-29>,position,1,1595953348.616415}'
+2020-07-28 13:22:29,946  rsu2 INFO Total received packets at iteration 30 : 1
+2020-07-28 13:22:32,951  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:36,030  rsu2 INFO Total received packets at iteration 31 : 0
+2020-07-28 13:22:37,032  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:42,095  rsu2 INFO Total received packets at iteration 32 : 0
+2020-07-28 13:22:45,099  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:50,448  rsu2 INFO Total received packets at iteration 33 : 0
+2020-07-28 13:22:51,450  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:54,530  rsu2 INFO Total received packets at iteration 34 : 0
+2020-07-28 13:22:56,531  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:22:59,594  rsu2 INFO New neighbor added 02:00:00:00:19:00
+2020-07-28 13:22:59,595  rsu2 INFO Neighbors 1.
+2020-07-28 13:22:59,595  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car13-36>,position,1,1595953378.9580941}' 
+2020-07-28 13:22:59,674  rsu2 INFO new update message received b'{<car13-36>,position,1,1595953378.9580941}'
+2020-07-28 13:22:59,674  rsu2 INFO Total received packets at iteration 35 : 1
+2020-07-28 13:23:00,678  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:05,767  rsu2 INFO New neighbor added 02:00:00:00:19:00
+2020-07-28 13:23:05,767  rsu2 INFO Neighbors 1.
+2020-07-28 13:23:05,767  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car13-37>,position,0,1595953384.0631971}' 
+2020-07-28 13:23:05,850  rsu2 INFO new update message received b'{<car13-37>,position,0,1595953384.0631971}'
+2020-07-28 13:23:05,850  rsu2 INFO Total received packets at iteration 36 : 1
+2020-07-28 13:23:06,852  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:10,915  rsu2 INFO Total received packets at iteration 37 : 0
+2020-07-28 13:23:13,104  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:16,158  rsu2 INFO New neighbor added 02:00:00:00:1d:00
+2020-07-28 13:23:16,158  rsu2 INFO Neighbors 1.
+2020-07-28 13:23:16,158  rsu2 INFO Device rsu2 rebroadcast packet data b'{<car15-36>,position,0,1595953393.2736347}' 
+2020-07-28 13:23:16,250  rsu2 INFO new update message received b'{<car15-36>,position,0,1595953393.2736347}'
+2020-07-28 13:23:16,250  rsu2 INFO Total received packets at iteration 38 : 1
+2020-07-28 13:23:19,254  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:24,350  rsu2 INFO Total received packets at iteration 39 : 0
+2020-07-28 13:23:25,353  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:28,423  rsu2 INFO Total received packets at iteration 40 : 0
+2020-07-28 13:23:29,427  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:34,517  rsu2 INFO Total received packets at iteration 41 : 0
+2020-07-28 13:23:36,520  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:39,603  rsu2 INFO Total received packets at iteration 42 : 0
+2020-07-28 13:23:40,606  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:43,741  rsu2 INFO Total received packets at iteration 43 : 0
+2020-07-28 13:23:45,745  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:48,948  rsu2 INFO Total received packets at iteration 44 : 0
+2020-07-28 13:23:49,949  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:23:55,674  rsu2 INFO Total received packets at iteration 45 : 0
+2020-07-28 13:23:59,096  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:04,174  rsu2 INFO Total received packets at iteration 46 : 0
+2020-07-28 13:24:06,176  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:10,242  rsu2 INFO Total received packets at iteration 47 : 0
+2020-07-28 13:24:11,243  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:16,470  rsu2 INFO Total received packets at iteration 48 : 0
+2020-07-28 13:24:17,474  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:22,562  rsu2 INFO Total received packets at iteration 49 : 0
+2020-07-28 13:24:24,565  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:27,618  rsu2 INFO Total received packets at iteration 50 : 0
+2020-07-28 13:24:29,619  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:33,698  rsu2 INFO Total received packets at iteration 51 : 0
+2020-07-28 13:24:35,701  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:38,763  rsu2 INFO Total received packets at iteration 52 : 0
+2020-07-28 13:24:39,766  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:42,840  rsu2 INFO Total received packets at iteration 53 : 0
+2020-07-28 13:24:44,842  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:49,935  rsu2 INFO Total received packets at iteration 54 : 0
+2020-07-28 13:24:50,938  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:24:54,026  rsu2 INFO Total received packets at iteration 55 : 0
+2020-07-28 13:24:56,039  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:01,127  rsu2 INFO Total received packets at iteration 56 : 0
+2020-07-28 13:25:03,130  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:06,578  rsu2 INFO Total received packets at iteration 57 : 0
+2020-07-28 13:25:09,588  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:12,670  rsu2 INFO Total received packets at iteration 58 : 0
+2020-07-28 13:25:14,673  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:17,741  rsu2 INFO Total received packets at iteration 59 : 0
+2020-07-28 13:25:19,742  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:23,842  rsu2 INFO Total received packets at iteration 60 : 0
+2020-07-28 13:25:24,844  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:27,910  rsu2 INFO Total received packets at iteration 61 : 0
+2020-07-28 13:25:30,919  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:36,002  rsu2 INFO Total received packets at iteration 62 : 0
+2020-07-28 13:25:39,007  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:43,070  rsu2 INFO Total received packets at iteration 63 : 0
+2020-07-28 13:25:44,074  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:48,157  rsu2 INFO Total received packets at iteration 64 : 0
+2020-07-28 13:25:51,159  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:25:56,219  rsu2 INFO Total received packets at iteration 65 : 0
+2020-07-28 13:25:58,221  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:01,270  rsu2 INFO Total received packets at iteration 66 : 0
+2020-07-28 13:26:04,274  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:07,370  rsu2 INFO Total received packets at iteration 67 : 0
+2020-07-28 13:26:08,371  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:12,626  rsu2 INFO Total received packets at iteration 68 : 0
+2020-07-28 13:26:14,629  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:19,726  rsu2 INFO Total received packets at iteration 69 : 0
+2020-07-28 13:26:20,729  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:25,814  rsu2 INFO Total received packets at iteration 70 : 0
+2020-07-28 13:26:28,817  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:31,894  rsu2 INFO Total received packets at iteration 71 : 0
+2020-07-28 13:26:33,897  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-07-28 13:26:37,970  rsu2 INFO Total received packets at iteration 72 : 0
+2020-07-28 13:26:38,975  rsu2 INFO Sending into iface: rsu2-mp1.

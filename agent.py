@@ -15,10 +15,8 @@ if __name__ == '__main__':
     parser.add_argument('-d', action='store_true', help='Log debug messages')
     parser.add_argument('-w', action='store_true', help='Log warning messages')
     parser.add_argument('--critical', action='store_true', help='Log critical messages')
+    parser.add_argument('--filename', nargs='?', const=str, help="Define filename to log file")
     parser.add_argument('--path', nargs='?', const=str, help="Root path for save files")
-    parser.add_argument('--no-keep', dest='keep', action='store_false',
-                        help='Don\'t Keep an existent car log or car position file')
-    parser.set_defaults(keep=False)
 
     args = parser.parse_args()
     d_args = vars(args)

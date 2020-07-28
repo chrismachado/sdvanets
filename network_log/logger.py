@@ -19,21 +19,21 @@ class Logging:
             logging.basicConfig(filename=filename, format=self.str_form)
             self.logger = None
 
-        except IOError:
+        except IOError as e:
             print('No such file or directory: %s' % filename)
             exit(0)
 
     def log(self, msg, lvl, flag=None):
         if flag and self.is_log:
-            if lvl is 'debug':
+            if lvl == 'debug':
                 self.logger.debug(msg)
-            elif lvl is 'info':
+            elif lvl == 'info':
                 self.logger.info(msg)
-            elif lvl is 'warn':
+            elif lvl == 'warn':
                 self.logger.warn(msg)
-            elif lvl is 'error':
+            elif lvl == 'error':
                 self.logger.error(msg)
-            elif lvl is 'critical':
+            elif lvl == 'critical':
                 self.logger.critical(msg)
 
     def config_log(self, logger_name):

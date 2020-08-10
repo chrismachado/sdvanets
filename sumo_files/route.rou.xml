@@ -1,0 +1,11 @@
+<routes>
+	<vTypeDistribution id="typedist1">
+            <vType vClass="passenger" accel="2.0" id="commum" length="5.0" maxSpeed="60.0" sigma="0.5" color="1,0,1" probability="0.95"/>
+            <vType vClass="passenger" accel="5.0" id="commum2" length="5.0" maxSpeed="80.0" sigma="0.5" color="1,0,0" probability="0.95"/>
+            <vType vClass="truck" accel="3.5" id="special1" length="15.0" maxSpeed="30.0" sigma="0.5" probability="0.05"/>
+            <vType vClass="bus" accel="3.5" id="special2" length="12.0" maxSpeed="30.0" sigma="0.5" probability="0.05"/>
+    </vTypeDistribution>
+        
+    <flow id="0" type="typedist1" begin="0" end="0" number="21" from="1to3" to="1to3"/>
+    
+</routes>

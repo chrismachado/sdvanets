@@ -1,0 +1,15 @@
+<nodes>
+	<node id="n1" x="200" y="400" type="priority"/>
+	<node id="n2" x="400" y="200" type="priority"/>
+	<node id="n3" x="400" y="400" type="priority"/>
+	<node id="n4" x="400" y="600" type="priority"/>
+	<node id="n5" x="600" y="400" type="priority"/>
+	<node id="n6" x="600" y="600" type="priority"/>
+	<node id="n7" x="800" y="400" type="priority"/>
+	<node id="n8" x="800" y="600" type="priority"/>
+	<node id="n9" x="800" y="800" type="priority"/>
+	<node id="n10" x="1000" y="600" type="priority"/>
+    <node id="n11" x="1000" y="200" type="priority"/>
+    <node id="n12" x="200" y="800" type="priority"/>
+
+</nodes>

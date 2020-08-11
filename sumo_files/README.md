@@ -1,7 +1,7 @@
-# Setting up the scenario
+# :wrench: Setting up the scenario
 Changing the standard sumo scenario of mininet-wifi. This changing is necessary to run our scenario. 
 
-## How to
+## Changing default files
 ```bash
 ~/sdvanets$ cd sumo_files/
 ~/sdvanets/sumo_files$ cp *.xml sumo.cfg PATH/mininet-wifi/mn_wifi/sumo/data/
@@ -15,7 +15,7 @@ _note 2: This scenario is syncronized with python scenario file_
 
 >Every time that you change, this files you need to **execute the last command**.
 
-## Important files
+## :warning: Important files
 - route.rou.xml
 
     In that file you'll have the route settings of all the cars in SUMO. It's important to define exactly the same number of the cars here and the main scenario script.
@@ -33,3 +33,6 @@ _note 2: This scenario is syncronized with python scenario file_
     SUMO configuration file. It link all files cited above
 
 > Be careful when you change some of this files, the synchronization with mininet-wifi can be affected.
+
+
+You can find more information about SUMO [here](https://www.eclipse.org/sumo/).

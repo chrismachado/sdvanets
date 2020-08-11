@@ -15,7 +15,7 @@ This project contains experiments using the concept of Software Defined Network 
  ```bash
  ~/sdvantes$ pip install -r requirements.txt
  ```
-Before you run the commands below, see more about [setting up the scenario](sumo_files/README.md) and [how to use the agent](network_agent/vehicle_agent.py).
+Before you run the commands below, see more about [setting up the scenario](sumo_files/README.md) and [how to use the agent](network_agent/README.md).
 
 ```bash
 ~/sdvanets$ sudo python topo.py

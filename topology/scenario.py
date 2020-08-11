@@ -54,8 +54,10 @@ def topology(ncars):
                     cls=mesh, ssid='mesh-ssid', channel=5)
 
     info("*** Starting sumo")
+    # change config_file name if you want
+    # use --random for active the probability attribute of sumo
     net.useExternalProgram(program=sumo, port=8813,
-                           config_file='map.sumocfg --random')
+                           config_file='sumo.cfg --random')
 
     info("*** Starting network\n")
     net.build()

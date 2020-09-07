@@ -115,7 +115,7 @@ class VehicleAgent:
                     process = Thread(target=target)
                     process.start()
 
-                self.receiver_packets = 0
+                # self.receiver_packets = 0
                 iteration_count += 1
                 # self.verify_safety(currpos=currpos, newpos=self.file_utils.read_pos())
 
@@ -152,7 +152,7 @@ class VehicleAgent:
             self.log.log("Sending into iface: %s." % iface, 'info', self.args['s'])
             # start = time.time()
             # print("\nPACKET ID = %d %s" % (self.id, start), end=' ')
-            send(self.build_own_packet(src=src, dst=dst), iface=iface, count=1,
+            send(self.build_own_packet(src=src, dst=dst), iface=iface, count=len(self.neighbors) + 1,
                  verbose=0)
             # end = time.time()
             # print(" %s %s \n" % (end, (end - start)))
@@ -238,8 +238,13 @@ class VehicleAgent:
         :return: none
         """
         filename = self.args['filename']
+        store_log_hour = self.args['filetime']
+
         if filename is None:
             filename = 'default-log-name'
+
+        if store_log_hour is not None:
+            filename = '%s%s' % (filename, time.strftime(store_log_hour))
         path = self.args['path']
         if path is None:
             # path = "%s/log_files/" % os.path.dirname(os.path.normpath(os.getcwd()))

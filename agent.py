@@ -1,7 +1,7 @@
 # coding: utf-8
 from network_agent.vehicle_agent import VehicleAgent
 import argparse
-import os
+import time
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Sending and monitoring messages in vehicle ad-hoc network (VANET). "
@@ -14,21 +14,16 @@ if __name__ == '__main__':
     parser.add_argument('-e', action='store_true', help='Log error messages')
     parser.add_argument('-d', action='store_true', help='Log debug messages')
     parser.add_argument('-w', action='store_true', help='Log warning messages')
-    parser.add_argument('--critical', action='store_true', help='Log critical messages')
+    parser.add_argument('-c', action='store_true', help='Log critical messages')
     parser.add_argument('--filename', nargs='?', const=str, help="Define filename to log file")
-    parser.add_argument('--path', nargs='?', const=str, help="Root path for save files")
+    parser.add_argument('--filetime', nargs='?', const=str, help='Pass the time format to be appended in filename. '
+                                                                '(e.g) agent.py --log --filetime %%Y --filename'
+                                                                'test this command will result in the name: test{0}.log'
+                                                                .format(time.strftime('%Y')))
+    parser.add_argument('--path', nargs='?', const=str, help="If you want your won root path for save log files")
 
     args = parser.parse_args()
     d_args = vars(args)
-    # print(d_args)
-
-    # if not d_args['keep']:
-    #     abspath = os.path.abspath('./rsc')
-    #     car_pos_list = os.listdir('%s/car_pos' % abspath)
-    #     for item in car_pos_list:
-    #         if item.endswith('.txt'):
-    #             os.remove('%s/car_pos/%s' % (abspath, item))
-    #             print('Removing %s/car_pos/%s' % (abspath, item))
 
     va = VehicleAgent(args=d_args)
     va.start_agent()

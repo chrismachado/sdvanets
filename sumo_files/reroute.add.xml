@@ -1,0 +1,54 @@
+<additionals>
+    <rerouter id="rerouter_0" edges="1to3">
+        <interval end="1e9">
+           <destProbReroute id="3to4" probability="0.5"/>
+           <destProbReroute id="3to5" probability="0.5"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_1" edges="2to3">
+        <interval end="1e9">
+           <destProbReroute id="3to4" probability="0.5"/>
+           <destProbReroute id="3to5" probability="0.5"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_4" edges="3to5">
+        <interval end="1e9">
+           <destProbReroute id="5to6" probability="0.5"/>
+           <destProbReroute id="5to7" probability="0.5"/>
+        </interval>
+    </rerouter>
+        <rerouter id="rerouter_4" edges="5to6">
+        <interval end="1e9">
+           <destProbReroute id="6to8"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_5" edges="3to4">
+        <interval end="1e9">
+            <destProbReroute id="4to6"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_6" edges="4to6">
+        <interval end="1e9">
+            <destProbReroute id="6to8"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_7" edges="6to8">
+        <interval end="1e9">
+            <destProbReroute id="1to3" probability="0.5"/>
+            <destProbReroute id="2to3" probability="0.5"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_8" edges="5to7">
+        <interval end="1e9">
+            <destProbReroute id="7to8"/>
+        </interval>
+    </rerouter>
+    <rerouter id="rerouter_9" edges="7to8">
+        <interval end="1e9">
+            <destProbReroute id="1to3" probability="0.5"/>
+            <destProbReroute id="2to3" probability="0.5"/>
+        </interval>
+    </rerouter>
+
+
+</additionals>

@@ -7,7 +7,7 @@
 sumo 1.1.0
 sumo-gui"""
 
-from mininet.node import Controller
+from mininet.node import Controller, RemoteController
 from mininet.log import info
 from mn_wifi.node import UserAP
 from mn_wifi.cli import CLI
@@ -19,7 +19,7 @@ from mn_wifi.wmediumdConnector import interference
 
 def topology(ncars):
     "Create a network."
-    net = Mininet_wifi(controller=Controller, accessPoint=UserAP,
+    net = Mininet_wifi(controller=RemoteController, accessPoint=UserAP,
                        link=wmediumd, wmediumd_mode=interference)
 
     info("*** Creating nodes: car\n")
@@ -33,7 +33,7 @@ def topology(ncars):
         rsus.append(net.addCar('rsu%s' % (id + 1), wlans=2, encrypt='wpa2,'))
 
     info("*** Creating nodes: controller\n")
-    c1 = net.addController('c1')
+    c1 = net.addController(name='c1', ip='127.0.0.1', port=6633, protocol='tcp')
 
     info("*** Configuring Propagation Model\n")
     net.setPropagationModel(model="logDistance", exp=4.5)

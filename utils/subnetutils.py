@@ -25,14 +25,3 @@ class SubnetUtils:
             else:
                 aux += binary[i]
         return result
-
-
-if __name__ == '__main__':
-    from scapy.all import conf
-    _routes = conf.route.routes  # getting ifaces config
-    for _r in _routes:
-        if _r[4] != '127.0.0.1':
-            print(_r[3], "   ", _r[0])
-    netmask_int = 4294901760
-    from utils.subnetutils import SubnetUtils
-    print(SubnetUtils(netmask=netmask_int).int_to_dotted_string())

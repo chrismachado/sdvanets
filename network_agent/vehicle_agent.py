@@ -13,7 +13,6 @@ from threading import Thread
 from enum import IntEnum
 from network_log.logger import Logging
 from utils.subnetutils import SubnetUtils
-from utils.fileutils import FileUtils
 
 
 class Statistic(IntEnum):
@@ -28,12 +27,10 @@ class VehicleAgent:
 
     def __init__(self, **kwargs):
         if 'args' not in kwargs:
-            raise ValueError('Args need to be specified. Use -h to verify that.')
+            raise ValueError('Args need to be specified. Use -h for help.')
         self.args = kwargs.pop('args')
         self.log = None  # Logger class
         self.start_tx_time = 2  # sec
-        # self.tx_port = 2570  # connection port to send broadcast messages
-        # self.rx_port = 7025  # connection port to receive broadcast messages
         self.ifaces_names = []  # Interfaces with yours ip address
         self.ifaces_ip = []  # Ip of interfaces
         self.ifaces_netmask = []
@@ -50,23 +47,19 @@ class VehicleAgent:
         self.DSN_FLAG = 0  # Current status of density flag
         self.CNG_FLAG = 0  # Current status of congestion flag
         self.runtime_packets = dict()  # Register the packets received during the simulation
-        self.car = None
-        self.file_utils = None
-        self.is_safety = False
 
         logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # suppress scapy warnings
 
     def start_agent(self):
         """
         Start the agent and his functionalities
-        :return: none
+        :return: VehicleAgent
         """
         self.get_ifaces_config()  # set iface and ifaces_ip values
         self.mount_broadcast_address()  # make all broadcast addresses
         self.config_log_features()
 
         iteration_count = 0
-        # currpos = self.file_utils.read_pos()
         try:
             self.log.log("Entered the simulation", 'info', self.args['m'])
 
@@ -76,7 +69,7 @@ class VehicleAgent:
                 sleep_time = randint(3, 5) - self.start_tx_time
                 sleep(sleep_time)  # wait time to transmit
                 threads = []
-                for fnc in (self.broadcast, self.assync_monitoring):
+                for fnc in (self.broadcast, self.async_monitoring):
                     process = Thread(target=fnc)
                     process.start()
                     threads.append(process)
@@ -117,20 +110,19 @@ class VehicleAgent:
 
                 # self.receiver_packets = 0
                 iteration_count += 1
-                # self.verify_safety(currpos=currpos, newpos=self.file_utils.read_pos())
-
         except (KeyboardInterrupt, SystemExit):
             self.log.log("Leave the simulation", 'info', self.args['m'])
-            exit(0)
         except Exception as e:
-            self.log.log("VehicleAgent stops by unknown error\n%s" % e.message, 'error', self.args['e'])
-
+            self.log.log("VehicleAgent stops by unknown error\n%s" % e, 'error', self.args['e'])
+        finally:
             exit(0)
+
+        return self
 
     def get_ifaces_config(self):
         """
         configure ifaces per name, ip and makes a dict.
-        :return: none
+        :return: self.ifaces_dict
         """
         _routes = conf.route.routes  # getting ifaces config
         for _r in _routes:
@@ -140,32 +132,37 @@ class VehicleAgent:
                     self.ifaces_ip.append(_r[4])
                     self.ifaces_netmask.append(SubnetUtils(netmask=int(_r[1])).int_to_dotted_string())
                     self.ifaces_dict.update([(self.ifaces_names[-1], (self.ifaces_ip[-1], self.ifaces_netmask[-1]))])
-                    # net = ipaddress.IPv4Address(_r[4] + '/' netmask)
-                    # print(net.broadcast_address)
+        return self.ifaces_dict
 
     def broadcast(self):
         """
         Send broadcast message to each network
-        :return: none
+        :return: packets[]
         """
+        packets = []
         for src, dst, iface in zip(self.ifaces_ip, self.broadcast_addresses, self.ifaces_names):
             self.log.log("Sending into iface: %s." % iface, 'info', self.args['s'])
-            # start = time.time()
-            # print("\nPACKET ID = %d %s" % (self.id, start), end=' ')
-            send(self.build_own_packet(src=src, dst=dst), iface=iface, count=len(self.neighbors) + 1,
+            packets.append(self.build_own_packet(src=src, dst=dst))
+            send(packets[-1], iface=iface, count=len(self.neighbors) + 1,
                  verbose=0)
-            # end = time.time()
-            # print(" %s %s \n" % (end, (end - start)))
+
+        return packets
 
     def rebroadcast(self, packet):
+        """
+        Rebroadcast received message from other vehicles (we can implement a lot of things here)
+        :param packet: Message received from other vehicles
+        :return: packet
+        """
         msg = "Device %s rebroadcast packet data %s " % (self.ifaces_names[0].split('-')[0], packet[ICMP].load)
         self.log.log(msg, 'info', True)
-        send(packet, count=1, verbose=1)
+        send(packet, count=len(self.neighbors) + 1, verbose=1)
+        return packet
 
-    def assync_monitoring(self):
+    def async_monitoring(self):
         """
         Start threads for each interface that will sniff all packets incoming to the network
-        :return: none
+        :return: self.monitor_threads
         """
         if len(self.ifaces_names) != 0:
             self.monitor_threads = []
@@ -177,16 +174,18 @@ class VehicleAgent:
     def mount_broadcast_address(self):
         """
         Configure network broadcast address for each interface
-        :return: none
+        :return: self.broadcast_addresses
         """
         if self.broadcast_addresses is None:
             self.broadcast_addresses = []
             if len(self.ifaces_ip) != 0:
                 for ip in self.ifaces_ip:
                     separator = '.'
-                    splited_ip = ip.split(separator)
-                    splited_ip[3] = '255'
-                    self.broadcast_addresses.append(separator.join(splited_ip))
+                    split_ip = ip.split(separator)
+                    split_ip[3] = '255'
+                    self.broadcast_addresses.append(separator.join(split_ip))
+
+        return self.broadcast_addresses
 
     def build_own_packet(self, src, dst):
         """
@@ -201,17 +200,18 @@ class VehicleAgent:
         """
         Add neighbor to the list of neighbors and define timeout for it.
         :param neighbor: neighbor's mac address
-        :return: none
+        :return: self.neighbors
         """
         self.neighbors.append(neighbor)
-        self.neighbors_timeout.update([(neighbor, randint(5, 7))])
+        self.neighbors_timeout.update([(neighbor, randint(8, 12))])
         self.log.log("Neighbors %d." % len(self.neighbors), 'info', self.args['n'])
+        return self.neighbors
 
     def update_neighbor(self, neighbor):
         """
         Update list of neighbor by the time of each neighbor have.
         :param neighbor: neighbor's mac address
-        :return: none
+        :return: self.neighbors_timeout
         """
         try:
             while self.neighbors_timeout[neighbor] >= 1:
@@ -219,12 +219,17 @@ class VehicleAgent:
                 self.neighbors_timeout[neighbor] -= 1
             self.neighbors.remove(neighbor)
             self.neighbors_timeout.pop(neighbor)
-        except KeyError:
-            pass
-
-            # self.log.log("Key %s was already removed. " % kex, 'warn')
+        except KeyError as kex:
+            self.log.log("Key %s was already removed. " % kex, 'warn')
+        finally:
+            return self.neighbors_timeout
 
     def runtime_packets_log(self, packet):
+        """
+        Store into the log file the runtime packet content
+        :param packet: Packet from other vehicle, a build packet message
+        :return: content of the packet
+        """
         icmp_load = packet[ICMP].load
         if icmp_load in self.runtime_packets:
             self.runtime_packets[icmp_load] += 1
@@ -232,10 +237,12 @@ class VehicleAgent:
             self.runtime_packets[icmp_load] = 1
             self.log.log('new update message received %s' % icmp_load, 'info', self.args['r'])
 
+        return icmp_load
+
     def config_log_features(self):
         """
         Configure log class with parameters.
-        :return: none
+        :return: self.log
         """
         filename = self.args['filename']
         store_log_hour = self.args['filetime']
@@ -247,31 +254,25 @@ class VehicleAgent:
             filename = '%s%s' % (filename, time.strftime(store_log_hour))
         path = self.args['path']
         if path is None:
-            # path = "%s/log_files/" % os.path.dirname(os.path.normpath(os.getcwd()))
             path = "%s/log_files/" % os.getcwd()
         self.log = Logging(path=path, filename='%s.log' % filename,
                            log=self.args['log'])  # setup log file location
         self.log.config_log(logger_name=filename)
 
-        # self.file_utils = FileUtils(car=self.ifaces_names[0].split('-')[0], path="%s/%s/" % (path, "car_pos"))
+        return self.log
 
     def build_message(self):
         """
         Create message by using the id, flags and timestamp.
         :return: string
         """
-        if self.is_safety:
-            # self.CNG_FLAG = 1
-            return "{},{},CNG={}".format("SAFETY", self.file_utils.read_pos(), 1)
-
-        # timestamp = datetime.timestamp(datetime.now())
         timestamp = time.time()
         # [ID, DSN, CNG, TIMESTAMP]
         message = "{},{},{},{}".format(self.generate_message_id(),
-                                          # self.file_utils.read_pos(),
-                                          'position',
-                                          len(self.neighbors),
-                                          timestamp)
+                                       # self.file_utils.read_pos(),
+                                       'position',
+                                       len(self.neighbors),
+                                       timestamp)
         self.id += 1
         return "{%s}" % message
 
@@ -297,13 +298,3 @@ class VehicleAgent:
             self.broadcast_count = 50
         elif self.receiver_packets > Statistic.MED_DSN:
             self.broadcast_count = 20
-
-    def verify_safety(self, currpos, newpos):
-        print(currpos, " == ", newpos)
-        if currpos == newpos:
-            self.is_safety = True
-        else:
-            self.is_safety = False
-
-    def setCar(self, car):
-        self.car = car

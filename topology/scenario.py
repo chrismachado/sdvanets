@@ -33,17 +33,33 @@ def topology(ncars):
         rsus.append(net.addCar('rsu%s' % (id + 1), wlans=2, encrypt='wpa2,'))
 
     info("*** Creating nodes: controller\n")
-    c1 = net.addController(name='c1', ip='127.0.0.1', port=6633, protocol='tcp')
+    c1 = net.addController(name='c1', ip='127.0.0.1', port=6653, protocol='tcp')
+    e1 = net.addAccessPoint('e1', ssid='vanet-ssid', mac='00:00:00:11:00:01',
+                            mode='g', channel='1', passwd='123456789a',
+                            encrypt='wpa2', position='215.35,300.51,0.0')
+    e2 = net.addAccessPoint('e2', ssid='vanet-ssid', mac='00:00:00:11:00:02',
+                            mode='g', channel='6', passwd='123456789a',
+                            encrypt='wpa2', position='300.81,206.09,0.0')
+    e3 = net.addAccessPoint('e3', ssid='vanet-ssid', mac='00:00:00:11:00:03',
+                            mode='g', channel='1', passwd='123456789a',
+                            encrypt='wpa2', position='408.97,304.93,0.0')
+    e4 = net.addAccessPoint('e4', ssid='vanet-ssid', mac='00:00:00:11:00:04',
+                            mode='g', channel='6', passwd='123456789a',
+                            encrypt='wpa2', position='519.27,206.09,0.0')
 
     info("*** Configuring Propagation Model\n")
-    net.setPropagationModel(model="logDistance", exp=4.5)
+    net.setPropagationModel(model="logDistance", exp=4)
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
 
     info("*** Adding link\n")
     net.addLink(rsus[0], rsus[1])
+    net.addLink(rsus[1], rsus[2])
     net.addLink(rsus[2], rsus[3])
+    net.addLink(e1, e2)
+    net.addLink(e2, e3)
+    net.addLink(e3, e4)
 
     for rsu in rsus:
         net.addLink(rsu, intf=rsu.params['wlan'][1],
@@ -62,6 +78,10 @@ def topology(ncars):
     info("*** Starting network\n")
     net.build()
     c1.start()
+    e1.start([c1])
+    e2.start([c1])
+    e3.start([c1])
+    e4.start([c1])
 
     for rsu in rsus:
         rsu.setIP('192.168.0.%s/24' % (int(rsus.index(rsu)) + 101),

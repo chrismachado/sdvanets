@@ -7,7 +7,7 @@
 sumo 1.1.0
 sumo-gui"""
 
-from mininet.node import Controller, RemoteController
+from mininet.node import RemoteController
 from mininet.log import info
 from mn_wifi.node import UserAP
 from mn_wifi.cli import CLI
@@ -17,14 +17,14 @@ from mn_wifi.link import wmediumd, mesh
 from mn_wifi.wmediumdConnector import interference
 
 
-def topology(ncars):
+def topology():
     "Create a network."
     net = Mininet_wifi(controller=RemoteController, accessPoint=UserAP,
                        link=wmediumd, wmediumd_mode=interference)
 
     info("*** Creating nodes: car\n")
     cars = []
-    for id in range(0, ncars):
+    for id in range(0, 21):
         cars.append(net.addCar('car%s' % (id + 1), wlans=2, encrypt='wpa2,'))
 
     info("*** Creating nodes: rsu\n")
@@ -34,6 +34,7 @@ def topology(ncars):
 
     info("*** Creating nodes: controller\n")
     c1 = net.addController(name='c1', ip='127.0.0.1', port=6653, protocol='tcp')
+
     e1 = net.addAccessPoint('e1', ssid='vanet-ssid', mac='00:00:00:11:00:01',
                             mode='g', channel='1', passwd='123456789a',
                             encrypt='wpa2', position='215.35,300.51,0.0')
@@ -103,8 +104,8 @@ def topology(ncars):
     # Track the position of the nodes
     nodes = net.cars + net.aps
     net.telemetry(nodes=nodes, data_type='position',
-                 min_x=0, min_y=0,
-                 max_x=850, max_y=650)
+                  min_x=0, min_y=0,
+                  max_x=850, max_y=650)
 
     info("*** Running CLI\n")
     CLI(net)

@@ -2,7 +2,7 @@ from network_controller.poxcontroller import PoxController
 
 if __name__ == '__main__':
     pox = PoxController(cmd='/home/ubuntu/pox/pox.py',
-                        run_script='forwarding.l3_learning',
+                        script='forwarding.l3_learning',
                         ofst='openflow.spanning_tree --no-flood --hold-down',
                         debug='log.level --DEBUG',
                         pretty_log='samples.pretty_log',

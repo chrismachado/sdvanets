@@ -114,8 +114,6 @@ class VehicleAgent:
             self.log.log("Leave the simulation", 'info', self.args['m'])
         except Exception as e:
             self.log.log("VehicleAgent stops by unknown error\n%s" % e, 'error', self.args['e'])
-        finally:
-            exit(0)
 
         return self
 

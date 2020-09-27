@@ -17,7 +17,7 @@ from mn_wifi.link import wmediumd, mesh
 from mn_wifi.wmediumdConnector import interference
 
 
-def topology():
+def topol*.logogy():
     "Create a network."
     net = Mininet_wifi(controller=RemoteController, accessPoint=UserAP,
                        link=wmediumd, wmediumd_mode=interference)

@@ -30,8 +30,8 @@ optional arguments:
 -w                    Log warning messages
 -c                    Log critical messages
 --filename [FILENAME] Define filename to log file
---filetime [FILETIME] Pass the time format to be appended in filename. (e.g) agent.py --log --filetime %Y
-                      --filename test this command will result in the name: test2020.log
+--filetime [FILETIME] Pass the time format to be appended in filename. (e.g) python -m network_agent --log --filetime %Y --filename=foo 
+                      this command will result in the name: foo2020.log
 --path [PATH]         If you want your won root path for save log files
 --name [NAME]         Define name of agent (should be same of the car)
 --rsu                 Set the agent to be a RSU

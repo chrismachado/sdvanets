@@ -60,7 +60,7 @@ class Agent:
 
         logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # suppress scapy warnings
 
-    def start_agent(self):
+    def run(self):
         """
         Start the agent and his functionalities
         :return: Agent
@@ -148,14 +148,16 @@ class Agent:
         :return: packets[]
         """
         packets = []
-        for src, dst, iface in zip(self.ifaces_ip, self.broadcast_addresses, self.ifaces_names):
-            self.log.log("Sending into iface: %s." % iface, 'info', self.args['s'])
-            packets.append(self.build_own_packet(src=src,
-                                                 dst=dst,
-                                                 message=self.beacon_message()))
-            send(packets[-1], iface=iface, count=len(self.neighbors) + 1,
-                 verbose=0)
-
+        try:
+            for src, dst, iface in zip(self.ifaces_ip, self.broadcast_addresses, self.ifaces_names):
+                self.log.log("Sending into iface: %s." % iface, 'info', self.args['s'])
+                packets.append(self.build_own_packet(src=src,
+                                                     dst=dst,
+                                                     message=self.beacon_message()))
+                send(packets[-1], iface=iface, count=len(self.neighbors) + 1,
+                     verbose=0)
+        except PermissionError:
+            raise PermissionError("Permission denied, try run with sudo.")
         return packets
 
     def rebroadcast(self, packet):

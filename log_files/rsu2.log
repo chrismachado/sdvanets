@@ -1,0 +1,39 @@
+2020-09-27 20:06:30,445  rsu2 INFO rsu2 entered the simulation
+2020-09-27 20:06:32,448  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:06:32,496  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:06:37,573  rsu2 INFO Total received packets at iteration 0 : 0
+2020-09-27 20:06:37,609  rsu2 INFO Total received packets at iteration 0 : 0
+2020-09-27 20:06:38,610  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:06:38,653  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:06:43,737  rsu2 INFO Total received packets at iteration 1 : 0
+2020-09-27 20:06:43,761  rsu2 INFO Total received packets at iteration 1 : 0
+2020-09-27 20:06:44,763  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:06:44,822  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:06:47,885  rsu2 INFO Total received packets at iteration 2 : 0
+2020-09-27 20:06:47,914  rsu2 INFO Total received packets at iteration 2 : 0
+2020-09-27 20:06:50,918  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:06:50,963  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:06:56,044  rsu2 INFO Total received packets at iteration 3 : 0
+2020-09-27 20:06:56,061  rsu2 INFO Total received packets at iteration 3 : 0
+2020-09-27 20:06:57,063  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:06:57,120  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:07:01,196  rsu2 INFO Total received packets at iteration 4 : 0
+2020-09-27 20:07:01,229  rsu2 INFO Total received packets at iteration 4 : 0
+2020-09-27 20:07:04,233  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:07:04,272  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:07:09,348  rsu2 INFO Total received packets at iteration 5 : 0
+2020-09-27 20:07:09,368  rsu2 INFO Total received packets at iteration 5 : 0
+2020-09-27 20:07:11,371  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:07:11,416  rsu2 INFO Sending into iface: rsu2-mp1.
+2020-09-27 20:07:15,991  rsu2 INFO Total received packets at iteration 6 : 0
+2020-09-27 20:07:16,077  rsu2 INFO New neighbor MAC: 02:00:00:00:0d:00 | IP: 192.168.1.7
+2020-09-27 20:07:16,077  rsu2 INFO Neighbors 1.
+2020-09-27 20:07:16,077  rsu2 INFO Device rsu2 rebroadcast packet data b'code=18,name=car7,id=car7-8,n=0,t=1601248034.9352248' 
+2020-09-27 20:07:16,157  rsu2 INFO new update message received b'code=18,name=car7,id=car7-8,n=0,t=1601248034.9352248'
+2020-09-27 20:07:16,158  rsu2 INFO New neighbor MAC: 02:00:00:00:1f:00 | IP: 192.168.1.16
+2020-09-27 20:07:16,158  rsu2 INFO Neighbors 2.
+2020-09-27 20:07:16,158  rsu2 INFO Device rsu2 rebroadcast packet data b'code=18,name=car16,id=car16-7,n=0,t=1601248035.413856' 
+2020-09-27 20:07:16,280  rsu2 INFO new update message received b'code=18,name=car16,id=car16-7,n=0,t=1601248035.413856'
+2020-09-27 20:07:16,281  rsu2 INFO Total received packets at iteration 6 : 2
+2020-09-27 20:07:18,286  rsu2 INFO Sending into iface: rsu2-wlan0.
+2020-09-27 20:07:18,378  rsu2 INFO Sending into iface: rsu2-mp1.

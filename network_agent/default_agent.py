@@ -23,15 +23,20 @@ from utils.subnetutils import SubnetUtils
 #     MED_DSN = 100
 
 
-class VehicleAgent:
+class Agent:
+    """
+    AGENT_CODE: Identification code of an agent.
+                0x10: Default agent;
+                0x11: RSU agent;
+                0x12: Vehicle agent.
+    """
+    AGENT_CODE = 0x10  # 16
 
-    def __init__(self, name, is_rsu=False, **kwargs):
-        self.agent_name = name
-        self.is_rsu = is_rsu
+    def __init__(self, name, **kwargs):
 
         if 'args' not in kwargs:
             raise ValueError('Args need to be specified. Use -h for help.')
-
+        self.agent_name = name
         self.args = kwargs.pop('args')
         self.log = None  # Logger class
         self.start_tx_time = 2  # sec
@@ -45,11 +50,12 @@ class VehicleAgent:
         self.monitor_threads = None  # Store sniffer thread
         self.neighbors = []  # Store MAC of nearby cars
         self.neighbors_timeout = dict()  # Time to live for each neighbor
+        self.neighbors_ip = dict()  # A simple ARP table MAC -> IP
         self.network_status = []
         self.broadcast_count = 30  # Start number of packets to be send
         self.id = 0  # Initial ID for message
-        self.DSN_FLAG = 0  # Current status of density flag
-        self.CNG_FLAG = 0  # Current status of congestion flag
+        # self.DSN_FLAG = 0  # Current status of density flag
+        # self.CNG_FLAG = 0  # Current status of congestion flag
         self.runtime_packets = dict()  # Register the packets received during the simulation
 
         logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # suppress scapy warnings
@@ -57,7 +63,7 @@ class VehicleAgent:
     def start_agent(self):
         """
         Start the agent and his functionalities
-        :return: VehicleAgent
+        :return: Agent
         """
         self.get_ifaces_config()  # set iface and ifaces_ip values
         self.mount_broadcast_address()  # make all broadcast addresses
@@ -65,7 +71,7 @@ class VehicleAgent:
 
         iteration_count = 0
         try:
-            self.log.log("Entered the simulation", 'info', self.args['m'])
+            self.log.log("%s entered the simulation" % self.agent_name, 'info', self.args['m'])
 
             while True:
                 # if self.car.params['position']:
@@ -93,9 +99,9 @@ class VehicleAgent:
                         for raw_packet in result:
                             if raw_packet[IP].src not in self.ifaces_ip:
                                 if raw_packet[Ether].src not in self.neighbors:
-                                    self.log.log("New neighbor added %s" % raw_packet[Ether].src, 'info',
-                                                 self.args['n'])
-                                    self.add_neighbor(raw_packet[Ether].src)  # MAC Address
+                                    self.log.log("New neighbor MAC: %s | IP: %s" %
+                                                 (raw_packet[Ether].src, raw_packet[IP].src), 'info', self.args['n'])
+                                    self.add_neighbor(raw_packet)  # raw_packet[Ether].src MAC Address
                                 self.rebroadcast(packet=raw_packet)
                                 self.runtime_packets_log(packet=raw_packet)
                     msg = "Total received packets at iteration %d : %d" % (iteration_count, self.receiver_packets)
@@ -115,9 +121,9 @@ class VehicleAgent:
                 # self.receiver_packets = 0
                 iteration_count += 1
         except (KeyboardInterrupt, SystemExit):
-            self.log.log("Leave the simulation", 'info', self.args['m'])
+            self.log.log("%s leave the simulation" % self.agent_name, 'info', self.args['m'])
         except Exception as e:
-            self.log.log("VehicleAgent stops by unknown error\n%s" % e, 'error', self.args['e'])
+            self.log.log("Agent stops by unknown error:\n%s" % e, 'error', self.args['e'])
 
         return self
 
@@ -144,7 +150,9 @@ class VehicleAgent:
         packets = []
         for src, dst, iface in zip(self.ifaces_ip, self.broadcast_addresses, self.ifaces_names):
             self.log.log("Sending into iface: %s." % iface, 'info', self.args['s'])
-            packets.append(self.build_own_packet(src=src, dst=dst))
+            packets.append(self.build_own_packet(src=src,
+                                                 dst=dst,
+                                                 message=self.beacon_message()))
             send(packets[-1], iface=iface, count=len(self.neighbors) + 1,
                  verbose=0)
 
@@ -189,14 +197,17 @@ class VehicleAgent:
 
         return self.broadcast_addresses
 
-    def build_own_packet(self, src, dst):
+    # TODO: consertar esse metodo, arrumando algum jeito de remover o estatico
+    @staticmethod
+    def build_own_packet(src, dst, message):
         """
         Creates packet to be sent in the network.
+        :param message: string message to be send
         :param src: source address
         :param dst: destination address
         :return: packet with layer 3, 4 and the message -> IP / ICMP / Message.
         """
-        return IP(src=src, dst=dst) / ICMP() / self.build_message()
+        return IP(src=src, dst=dst) / ICMP() / message
 
     def add_neighbor(self, neighbor):
         """
@@ -204,8 +215,12 @@ class VehicleAgent:
         :param neighbor: neighbor's mac address
         :return: self.neighbors
         """
-        self.neighbors.append(neighbor)
-        self.neighbors_timeout.update([(neighbor, randint(8, 12))])
+        neighbor_mac = neighbor[Ether].src
+        neighbor_ip = neighbor[IP].src
+
+        self.neighbors.append(neighbor_mac)
+        self.neighbors_ip.update([(neighbor_mac, neighbor_ip)])
+        self.neighbors_timeout.update([(neighbor_mac, randint(8, 12))])
         self.log.log("Neighbors %d." % len(self.neighbors), 'info', self.args['n'])
         return self.neighbors
 
@@ -220,6 +235,7 @@ class VehicleAgent:
                 sleep(1)  # wait 1 second
                 self.neighbors_timeout[neighbor] -= 1
             self.neighbors.remove(neighbor)
+            self.neighbors_ip.pop(neighbor)
             self.neighbors_timeout.pop(neighbor)
         except KeyError as kex:
             self.log.log("Key %s was already removed. " % kex, 'warn')
@@ -263,39 +279,43 @@ class VehicleAgent:
 
         return self.log
 
-    def build_message(self):
+    def beacon_message(self):
         """
-        Create message by using the id, flags and timestamp.
+        Create message by using the id, flags and timestamp. (It's like a beacon message)
         :return: string
         """
         timestamp = time.time()
 
-        message = "{},{},{},{}".format(self.agent_name,
-                                       self.generate_message_id(),
-                                       len(self.neighbors),
-                                       timestamp)
+        params = (self.AGENT_CODE,
+                  self.agent_name,
+                  self.generate_message_id(),
+                  len(self.neighbors),
+                  timestamp)
+
+        if self.args['verbose']:
+            message = "code={0[0]},name={0[1]},id={0[2]},n={0[3]},t={0[4]}".format(params)
+        else:
+            message = "{0[0]},{0[1]},{0[2]},{0[3]},{0[4]}".format(params)
+
         self.id += 1
-        return "{%s}" % message
+
+        return message
 
     def generate_message_id(self):
-        return "<%s-%d>" % (self.ifaces_names[0].split('-')[0], self.id)
+        return "%s-%d" % (self.ifaces_names[0].split('-')[0], self.id)
 
-    # def density(self):
-    #     if len(self.neighbors) >= Statistic.DSN:
-    #         self.DSN_FLAG = 1
-    #     else:
-    #         self.DSN_FLAG = 0
-    #
-    # def congestion(self):
-    #     if self.receiver_packets >= Statistic.CNG:
-    #         self.CNG_FLAG = 1
-    #     else:
-    #         self.CNG_FLAG = 0
-    #
-    # def verify_density_packets(self):
-    #     if 0 < self.receiver_packets <= Statistic.MIN_DSN:
-    #         self.broadcast_count = 100
-    #     elif Statistic.MIN_DSN < self.receiver_packets <= Statistic.MED_DSN:
-    #         self.broadcast_count = 50
-    #     elif self.receiver_packets > Statistic.MED_DSN:
-    #         self.broadcast_count = 20
+    def neighbor_info(self):
+        arp_table = []
+        for key, value in self.neighbors_ip.items():
+            arp_table.append(f'{key},{value}')
+        return str(arp_table)
+
+    def response(self, packet):
+        pass
+
+    def request(self):
+        # neighbor_ip = packet[IP].src
+        # icmp_load = packet[ICMP].load
+        # request syntax `req?1,car1,<car1-12>,12,1200392091` or
+        # no request syntax `req?-1,car1<car1-13>,11,231232251`
+        pass

@@ -15,8 +15,13 @@ This project contains experiments using the concept of Software Defined Network 
  ```bash
  ~/sdvantes$ pip install -r requirements.txt
  ```
-Before you run the commands below, see more about [setting up the scenario](sumo_files/README.md) and [how to use the agent](network_agent/README.md).
+Before you run the commands below, see more about [setting up the scenario](sumo_files/01/README.md) and [how to use the agent](network_agent/README.md).
+After all, just start two terminals and run the following commands:
 
 ```bash
-~/sdvanets$ sudo python topo.py
+~/sdvanets$ sudo python run_controller.py
+```
+
+```bash
+~/sdvanets$ sudo python run_scenario.py
 ```

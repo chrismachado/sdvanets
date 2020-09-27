@@ -1,5 +1,5 @@
 import logging
-
+import os
 
 class Logging:
     def __init__(self, **kwargs):
@@ -9,14 +9,15 @@ class Logging:
             if 'filename' not in kwargs:
                 raise ValueError('filename must be specified')
             if 'path' in kwargs:
-                filename = kwargs.pop('path') + kwargs.pop('filename')
+                self.path = kwargs.pop('path')
+                filename = self.path + kwargs.pop('filename')
             else:
                 filename = kwargs.pop('filename')
             if 'log' not in kwargs:
                 raise ValueError('log must be specified at the script\'s parameters')
             self.is_log = kwargs.pop('log')
             if not self.is_log:
-                print('Disabling logs...')
+                print('Logs was disabled')
             logging.basicConfig(filename=filename, format=self.str_form)
             self.logger = None
 
@@ -52,3 +53,21 @@ class Logging:
 
     def set_str_form(self, str_form):
         self.str_form = str_form
+
+    def do_runtime_packets(self, agent):
+        if self.path:
+            try:
+                if not os.path.exists(self.path + 'runtime_packets'):
+                    os.mkdir(self.path + 'runtime_packets')
+
+                filename = self.path + 'runtime_packets/%s_runtime.log' % agent.agent_name
+                with open(filename, 'w+') as f:
+                    f.write("CODE: %d | NAME: %s\n" % (agent.AGENT_CODE, agent.agent_name))
+                    for key, value in agent.runtime_packets.items():
+                        f.write("%s: %d\n" % (key, value))
+                    f.write("================================================================\n")
+
+                print("Logging runtime packets")
+
+            except FileNotFoundError:
+                raise FileNotFoundError("File not found.")

@@ -19,9 +19,9 @@ if __name__ == '__main__':
     parser.add_argument('-c', action='store_true', help='Log critical messages')
     parser.add_argument('--filename', nargs='?', const=str, help="Define filename to log file")
     parser.add_argument('--filetime', nargs='?', const=str, help='Pass the time format to be appended in filename. '
-                                                                 '(e.g) agent.py --log --filetime %%Y --filename'
-                                                                 'test this command will result in the name: test{0}.'
-                                                                 'log'.format(time.strftime('%Y')))
+                                                                 '(e.g) python -m network_agent --log --filetime %%Y '
+                                                                 '--filename test this command will result in the name:'
+                                                                 ' test{0}.log'.format(time.strftime('%Y')))
     parser.add_argument('--path', nargs='?', const=str, help="If you want your won root path for save log files")
     parser.add_argument('--name', nargs='?', const=str, help="Define name of agent (should be same of the car)")
     parser.add_argument('--rsu', action='store_true', help='Set the agent to be a RSU')

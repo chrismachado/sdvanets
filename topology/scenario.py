@@ -109,7 +109,7 @@ def topology():
 
     info("*** Starting agents\n")
     for car in net.cars:
-        if '%s' % car in ['rsu1', 'rsu2', 'rsu3', 'rsu4']:
+        if car.name in ['rsu1', 'rsu2', 'rsu3', 'rsu4']:
             car.cmd(f'xterm -e python -m network_agent --log -srnm --filename {car} --name={car} --verbose --rsu &')
         else:
             car.cmd(f'xterm -e python -m network_agent --name={car} -srmn --verbose &')

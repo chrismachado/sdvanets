@@ -107,8 +107,20 @@ def topology():
                   min_x=0, min_y=0,
                   max_x=850, max_y=650)
 
+    info("*** Starting agents\n")
+    for car in net.cars:
+        if car.name in ['rsu1', 'rsu2', 'rsu3', 'rsu4']:
+            car.cmd(f'xterm -e python -m network_agent --log -srnm --filename {car} --name={car} --verbose --rsu &')
+        else:
+            car.cmd(f'xterm -e python -m network_agent --name={car} -srmn --verbose &')
+
     info("*** Running CLI\n")
     CLI(net)
 
     info("*** Stopping network\n")
     net.stop()
+
+    """
+    run this line on CLI
+    px for car in net.cars: car.cmd('xterm -e python -m network_agent --log -srnm --filename %s --name=%s --verbose --rsu &' % (car, car))  if(('%s'%car) in ['rsu1', 'rsu2', 'rsu3', 'rsu4']) else car.cmd('xterm -e python -m network_agent --name=%s -srmn --verbose &' % car)
+    """

@@ -1,10 +1,10 @@
 import logging
-import time
 
 
 class Logging:
     def __init__(self, **kwargs):
         self.str_form = "%(asctime)s  %(name)s %(levelname)s %(message)s"
+        filename = ''
         try:
             if 'filename' not in kwargs:
                 raise ValueError('filename must be specified')
@@ -20,9 +20,11 @@ class Logging:
             logging.basicConfig(filename=filename, format=self.str_form)
             self.logger = None
 
-        except IOError as e:
-            print('No such file or directory: %s' % filename)
-            exit(0)
+        except PermissionError:
+            raise PermissionError('Permission denied, try with sudo.')
+
+        except IOError:
+            raise IOError('No such file or directory: %s' % filename)
 
     def log(self, msg, lvl, flag=None):
         if flag and self.is_log:
@@ -40,8 +42,13 @@ class Logging:
     def config_log(self, logger_name):
         self.logger = logging.getLogger(logger_name)
         self.logger.setLevel(level=logging.DEBUG)
+
         ch = logging.StreamHandler()
         ch.setLevel(level=logging.DEBUG)
         formatter = logging.Formatter(self.str_form)
         ch.setFormatter(formatter)
+
         self.logger.addHandler(ch)
+
+    def set_str_form(self, str_form):
+        self.str_form = str_form

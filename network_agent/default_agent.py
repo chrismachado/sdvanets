@@ -31,6 +31,9 @@ class Agent:
                 0x12: Vehicle agent.
     """
     AGENT_CODE = 0x10  # 16
+    START_TX_TIME = 2  # sec
+    TX_DELAY = 5  # transmission delay in seconds
+    RX_DELAY = 5  # receiver delay in seconds
 
     def __init__(self, name, **kwargs):
 
@@ -39,23 +42,22 @@ class Agent:
         self.agent_name = name
         self.args = kwargs.pop('args')
         self.log = None  # Logger class
-        self.start_tx_time = 2  # sec
+
         self.ifaces_names = []  # Interfaces with yours ip address
         self.ifaces_ip = []  # Ip of interfaces
         self.ifaces_netmask = []
-        self.tx_delay = 5  # transmission delay in seconds
         self.ifaces_dict = dict()
+
         self.broadcast_addresses = None  # Store broadcast address for each network
         self.receiver_packets = 0  # Count how many packets were received
-        self.monitor_threads = None  # Store sniffer thread
+        self.threads_monitor = None  # Store sniffer thread
+
         self.neighbors = []  # Store MAC of nearby cars
         self.neighbors_timeout = dict()  # Time to live for each neighbor
         self.neighbors_ip = dict()  # A simple ARP table MAC -> IP
+
         self.network_status = []
-        self.broadcast_count = 30  # Start number of packets to be send
         self.id = 0  # Initial ID for message
-        # self.DSN_FLAG = 0  # Current status of density flag
-        # self.CNG_FLAG = 0  # Current status of congestion flag
         self.runtime_packets = dict()  # Register the packets received during the simulation
 
         logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # suppress scapy warnings
@@ -63,7 +65,6 @@ class Agent:
     def run(self):
         """
         Start the agent and his functionalities
-        :return: Agent
         """
         self.get_ifaces_config()  # set iface and ifaces_ip values
         self.mount_broadcast_address()  # make all broadcast addresses
@@ -74,9 +75,7 @@ class Agent:
             self.log.log("%s entered the simulation" % self.agent_name, 'info', self.args['m'])
 
             while True:
-                # if self.car.params['position']:
-                #     self.log.log("Current car position %s " % self.car.params['position'], 'info', self.args['d'])
-                sleep_time = randint(3, 5) - self.start_tx_time
+                sleep_time = randint(3, Agent.TX_DELAY) - Agent.START_TX_TIME
                 sleep(sleep_time)  # wait time to transmit
                 threads = []
                 for fnc in (self.broadcast, self.async_monitoring):
@@ -88,8 +87,8 @@ class Agent:
                     process.join(timeout=3)
 
                 # Time for receive packets
-                sleep(randint(3, 5))
-                for process in self.monitor_threads:
+                sleep(randint(3, Agent.RX_DELAY))
+                for process in self.threads_monitor:
                     # process.join(timeout=5) # if you specify how many packets do you want to collect use this
                     result = process.stop()
                     self.network_status.append(process.results)
@@ -120,12 +119,19 @@ class Agent:
 
                 # self.receiver_packets = 0
                 iteration_count += 1
+                self.log.do_runtime_packets(agent=self)
+
         except (KeyboardInterrupt, SystemExit):
             self.log.log("%s leave the simulation" % self.agent_name, 'info', self.args['m'])
+            raise KeyboardInterrupt("Interrupt, exiting...")
+
+        except OSError as error:
+            self.log.log("%s" % error, 'critical', True)
+            raise OSError("Critical error occurred.")
+
         except Exception as e:
             self.log.log("Agent stops by unknown error:\n%s" % e, 'error', self.args['e'])
-
-        return self
+            raise KeyboardInterrupt("Exiting...")
 
     def get_ifaces_config(self):
         """
@@ -157,7 +163,8 @@ class Agent:
                 send(packets[-1], iface=iface, count=len(self.neighbors) + 1,
                      verbose=0)
         except PermissionError:
-            raise PermissionError("Permission denied, try run with sudo.")
+            raise PermissionError("Permission denied at broadcast, try run as superuser.")
+
         return packets
 
     def rebroadcast(self, packet):
@@ -166,22 +173,25 @@ class Agent:
         :param packet: Message received from other vehicles
         :return: packet
         """
-        msg = "Device %s rebroadcast packet data %s " % (self.ifaces_names[0].split('-')[0], packet[ICMP].load)
-        self.log.log(msg, 'info', True)
-        send(packet, count=len(self.neighbors) + 1, verbose=1)
+        try:
+            msg = "Device %s rebroadcast packet data %s " % (self.ifaces_names[0].split('-')[0], packet[ICMP].load)
+            self.log.log(msg, 'info', True)
+            send(packet, count=len(self.neighbors) + 1, verbose=1)
+        except PermissionError:
+            raise PermissionError("Permission denied at rebroadcast, try run as superuser")
         return packet
 
     def async_monitoring(self):
         """
         Start threads for each interface that will sniff all packets incoming to the network
-        :return: self.monitor_threads
+        :return: self.threads_monitor
         """
         if len(self.ifaces_names) != 0:
-            self.monitor_threads = []
+            self.threads_monitor = []
             for name, ip in zip(self.ifaces_names, self.ifaces_ip):
                 monitor_process = AsyncSniffer(iface=name, filter='icmp and not host %s' % ip)
                 monitor_process.start()
-                self.monitor_threads.append(monitor_process)
+                self.threads_monitor.append(monitor_process)
 
     def mount_broadcast_address(self):
         """

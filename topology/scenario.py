@@ -63,14 +63,14 @@ def topology():
     net.addLink(e3, e4)
 
     for rsu in rsus:
-        net.addLink(rsu, intf=rsu.params['wlan'][1],
+        net.addLink(rsu, intf=rsu.wintfs[1].name,
                     cls=mesh, ssid='mesh-ssid', channel=5)
 
     for car in cars:
-        net.addLink(car, intf=car.params['wlan'][1],
+        net.addLink(car, intf=car.wintfs[1].name,
                     cls=mesh, ssid='mesh-ssid', channel=5)
 
-    info("*** Starting sumo")
+    info("*** Starting sumo\n")
     # change config_file name if you want
     # use --random for active the probability attribute of sumo
     net.useExternalProgram(program=sumo, port=8813,
@@ -120,7 +120,9 @@ def topology():
     info("*** Stopping network\n")
     net.stop()
 
-    """
-    run this line on CLI
-    px for car in net.cars: car.cmd('xterm -e python -m network_agent --log -srnm --filename %s --name=%s --verbose --rsu &' % (car, car))  if(('%s'%car) in ['rsu1', 'rsu2', 'rsu3', 'rsu4']) else car.cmd('xterm -e python -m network_agent --name=%s -srmn --verbose &' % car)
-    """
+
+if __name__ == '__main__':
+    from mininet.log import setLogLevel
+
+    setLogLevel('info')
+    topology()

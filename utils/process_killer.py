@@ -3,9 +3,9 @@ import subprocess
 import signal
 
 
-class ProcessManager:
-    def __init__(self, grep_exp):
-        self.grep_exp = grep_exp
+class ProcessKiller:
+    def __init__(self, expression):
+        self.expression = expression
 
     def stop(self):
         process_list = self.get_process_list()
@@ -23,7 +23,7 @@ class ProcessManager:
             raise ProcessLookupError(f'Can\'t find the process {process[0]}')
 
     def get_process_list(self):
-        ps = subprocess.Popen(f'ps -ax | grep -E \'{self.grep_exp}\'',
+        ps = subprocess.Popen(f'ps -ax | grep -E \'{self.expression}\'',
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               shell=True)
@@ -46,5 +46,5 @@ class ProcessManager:
 
 
 if __name__ == '__main__':
-    grep_exp = 'python|python2.7|mininet|run_controller|run_scenario'
-    ProcessManager(grep_exp).stop()
+    expression = 'python|python2.7|mininet|run_controller|run_scenario'
+    ProcessKiller(expression=expression).stop()

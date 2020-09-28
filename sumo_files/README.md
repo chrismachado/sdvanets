@@ -3,10 +3,10 @@ Changing the standard sumo scenario of mininet-wifi. This changing is necessary 
 
 ## Changing default files
 ```bash
-~/sdvanets$ cd sumo_files/
-~/sdvanets/sumo_files$ cp *.xml sumo.cfg PATH/mininet-wifi/mn_wifi/sumo/data/
+~/sdvanets$ cd sumo_files/1/
+~/sdvanets/sumo_files/1$ cp *.xml sumo.cfg PATH/mininet-wifi/mn_wifi/sumo/data/
 
-~/sdvanets/sumo_files$ cd PATH/mininet-wifi/
+~/sdvanets/sumo_files/1$ cd PATH/mininet-wifi/
 ~/mininet-wifi$ sudo make install
 ```
 _note 1: PATH should be the real path to the directory mininet-wifi/ on your system_

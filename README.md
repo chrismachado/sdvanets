@@ -15,13 +15,15 @@ This project contains experiments using the concept of Software Defined Network 
  ```bash
  ~/sdvantes$ pip install -r requirements.txt
  ```
-Before you run the commands below, see more about [setting up the scenario](sumo_files/01/README.md) and [how to use the agent](network_agent/README.md).
-After all, just start two terminals and run the following commands:
+Before you run the commands below, see more about [setting up the scenario](sumo_files/README.md) and [how to use the agent](network_agent/README.md).
+After all, if that is your first try, you'll need to setup the mininet's sumo scenario,
+by running the following command:
 
 ```bash
-~/sdvanets$ sudo python run_controller.py
+~/sdvanets$ sudo python -m sdvanets --set-sumo=1 -c
 ```
 
+After, you just need to run this command:
 ```bash
-~/sdvanets$ sudo python run_scenario.py
+~/sdvanets$ sudo python -m sdvanets 
 ```

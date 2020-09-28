@@ -1,9 +1,11 @@
 import logging
 import os
 
+
 class Logging:
     def __init__(self, **kwargs):
         self.str_form = "%(asctime)s  %(name)s %(levelname)s %(message)s"
+        self.__rm_privileges = dict()
         filename = ''
         try:
             if 'filename' not in kwargs:
@@ -55,6 +57,9 @@ class Logging:
         self.str_form = str_form
 
     def do_runtime_packets(self, agent):
+        if agent.agent_name not in self.__rm_privileges:
+            self.__rm_privileges.update([(agent.agent_name, False)])
+
         if self.path:
             try:
                 if not os.path.exists(self.path + 'runtime_packets'):
@@ -65,7 +70,10 @@ class Logging:
                     f.write("CODE: %d | NAME: %s\n" % (agent.AGENT_CODE, agent.agent_name))
                     for key, value in agent.runtime_packets.items():
                         f.write("%s: %d\n" % (key, value))
-                    f.write("================================================================\n")
+
+                if not self.__rm_privileges[agent.agent_name]:
+                    self.__rm_privileges[agent.agent_name] = True
+                    os.system("chmod -R 777 %s" % filename)
 
                 print("Logging runtime packets")
 

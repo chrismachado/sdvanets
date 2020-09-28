@@ -1,0 +1,45 @@
+<routes>
+	<vTypeDistribution id="typedist1">
+            <vType vClass="passenger" accel="2.0" id="commum" length="5.0" maxSpeed="60.0" sigma="0.5" color="1,0,1" probability="0.95"/>
+            <vType vClass="passenger" accel="5.0" id="commum2" length="5.0" maxSpeed="80.0" sigma="0.5" color="1,0,0" probability="0.95"/>
+            <vType vClass="truck" accel="3.5" id="special1" length="15.0" maxSpeed="30.0" sigma="0.5" probability="0.05"/>
+            <vType vClass="bus" accel="3.5" id="special2" length="12.0" maxSpeed="30.0" sigma="0.5" probability="0.05"/>
+    </vTypeDistribution>
+        
+          <routeDistribution id="routedist1">
+                <route id="r0" edges="1to3 3to5 5to7 7to8 8to10" probability="0.10">
+                        <stop lane="5to7_0" endPos="50" duration="25"/>
+                </route>
+                <route id="r1" edges="1to3 3to5 5to7 7to8 8to10" probability="0.40"/>
+                <route id="r2" edges="1to3 3to4 4to6 6to8 8to9" probability="0.40" />
+                <route id="r3" edges="1to3 3to4 4to6 6to8 8to9" probability="0.10">
+                        <stop lane="4to6_0" endPos="45" duration="10"/>
+                </route>
+                <!-- <route id="route3" color="1,3,0" edges="1to3 3to5 5to6 6to8 8to10" probability="0.1" /> -->
+        </routeDistribution>
+
+
+
+	<vehicle id="0" depart="0.00" type="typedist1" route="routedist1"/>
+	<vehicle id="1" depart="0.00" type="typedist1" route="routedist1"/>
+	<vehicle id="2" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="3" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="4" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="5" depart="0.00" type="typedist1" route="routedist1"/>
+	<vehicle id="6" depart="0.00" type="typedist1" route="routedist1"/>
+	<vehicle id="7" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="8" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="9" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="10" depart="0.00" type="typedist1" route="routedist1"/>
+	<vehicle id="11" depart="0.00" type="typedist1" route="routedist1"/>
+	<vehicle id="12" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="13" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="14" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="15" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="16" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="17" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="18" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="19" depart="0.00" type="typedist1" route="routedist1"/>
+        <vehicle id="20" depart="0.00" type="typedist1" route="routedist1"/>
+  
+</routes>

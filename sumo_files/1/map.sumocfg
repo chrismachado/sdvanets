@@ -1,0 +1,15 @@
+<configuration>
+	<input>
+		<net-file value="net.net.xml"/>
+		<route-files value="route.rou.xml"/>
+        <additional-files value="reroute.add.xml"/>
+	</input>
+	<time>
+		<begin value="0.00"/>
+		<end value="2000.00"/>
+		<step-length value="1.0"/>
+	</time>
+        <traci_server>
+	         <remote-port value="8813"/>
+        </traci_server>
+</configuration>

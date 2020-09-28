@@ -15,11 +15,11 @@ from utils.subnetutils import SubnetUtils
 from .default_agent import Agent
 
 
-class VehicleAgent(Agent):
+class RSUAgent(Agent):
 
     def __init__(self, name, **kwargs):
-        super(VehicleAgent, self).__init__(name, **kwargs)
-        self.AGENT_CODE = 0x12  # 18
+        super(RSUAgent, self).__init__(name, **kwargs)
+        self.AGENT_CODE = 0x11  # 17
 
     def response(self, packet):
         pass

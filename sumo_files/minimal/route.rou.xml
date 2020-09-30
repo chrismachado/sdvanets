@@ -1,39 +1,50 @@
 <routes>
-	<vTypeDistribution id="dist1">
-		<vType vClass="passenger" accel="1" id="commum" length="5.0" maxSpeed="40.0" sigma="0.5" color="1,0,1" probability="0.40" />
-		<vType vClass="passenger" accel="1" id="commum2" length="5.0" maxSpeed="40.0" sigma="0.5" color="1,1,0" probability="0.40" />
-		<vType vClass="truck" accel="0.75" id="special" length="12.0" maxSpeed="20.0" sigma="0.5" color="1,0,1" probability="0.20" />
-	</vTypeDistribution>
-	
-	<routeDistribution id="routedist1">
-                <route id="r0" edges="1to6 6to7 7to8 8to2" probability="0.072" />
-                <route id="r1" edges="1to6 6to3" probability="0.058"/>
-                <route id="r2" edges="1to6 6to7 7to5" probability="0.058" />
-                <route id="r3" edges="1to6 6to7 7to8 8to4" probability="0.058"/>
-                
-                <route id="r4" edges="2to8 8to7 7to6 6to1" probability="0.058"/>
-                <route id="r5" edges="2to8 8to4" probability="0.058"/>
-                <route id="r6" edges="2to8 8to7 7to5" probability="0.058"/>
-                <route id="r7" edges="2to8 8to7 7to6 6to3" probability="0.058"/>
-                
-                <route id="r7" edges="4to8 8to7 7to6 6to1" probability="0.058"/>
-                <route id="r8" edges="4to8 8to7 7to5" probability="0.058"/>
-                <route id="r9" edges="4to8 8to7 7to6 6to3" probability="0.058"/>
-                <route id="r9" edges="4to8 8to2" probability="0.058"/>
-                
-                <route id="r10" edges="3to6 6to1" probability="0.058"/>
-                <route id="r11" edges="3to6 6to7 7to5" probability="0.058"/>
-                <route id="r12" edges="3to6 6to7 7to8 8to2" probability="0.058"/>
-                <route id="r13" edges="3to6 6to7 7to8 8to4" probability="0.058"/>
-                
-                <route id="r14" edges="5to7 7to8 8to4" probability="0.058" />
-                <route id="r15" edges="5to7 7to8 8to2" probability="0.058" />
-                <route id="r15" edges="5to7 7to6 6to3" probability="0.058" />
-                <route id="r16" edges="5to7 7to6 6to1" probability="0.058" />
+    <vTypeDistribution id="dist1">
+        <vType vClass="passenger" accel="1" id="commum" length="5.0" maxSpeed="40.0" sigma="0.5" color="1,0,1"
+               probability="0.40"/>
+        <vType vClass="passenger" accel="1" id="commum2" length="5.0" maxSpeed="40.0" sigma="0.5" color="1,1,0"
+               probability="0.40"/>
+        <vType vClass="truck" accel="0.75" id="special" length="12.0" maxSpeed="20.0" sigma="0.5" color="1,0,1"
+               probability="0.20"/>
+    </vTypeDistribution>
 
-                
-        </routeDistribution>
+    <routeDistribution id="routedist1">
+        <route id="r0" edges="1to6 6to7 7to8 8to2" probability="0.072"/>
+        <route id="r1" edges="1to6 6to3" probability="0.058"/>
+        <route id="r2" edges="1to6 6to7 7to5" probability="0.058"/>
+        <route id="r3" edges="1to6 6to7 7to8 8to4" probability="0.058"/>
 
-	
-	<flow id="vehicle" type="dist1" begin="0" end="0" number="8" route="routedist1" />
+        <route id="r4" edges="2to8 8to7 7to6 6to1" probability="0.058"/>
+        <route id="r5" edges="2to8 8to4" probability="0.058"/>
+        <route id="r6" edges="2to8 8to7 7to5" probability="0.058"/>
+        <route id="r7" edges="2to8 8to7 7to6 6to3" probability="0.058"/>
+
+        <route id="r7" edges="4to8 8to7 7to6 6to1" probability="0.058"/>
+        <route id="r8" edges="4to8 8to7 7to5" probability="0.058"/>
+        <route id="r9" edges="4to8 8to7 7to6 6to3" probability="0.058"/>
+        <route id="r9" edges="4to8 8to2" probability="0.058"/>
+
+        <route id="r10" edges="3to6 6to1" probability="0.058"/>
+        <route id="r11" edges="3to6 6to7 7to5" probability="0.058"/>
+        <route id="r12" edges="3to6 6to7 7to8 8to2" probability="0.058"/>
+        <route id="r13" edges="3to6 6to7 7to8 8to4" probability="0.058"/>
+
+        <route id="r14" edges="5to7 7to8 8to4" probability="0.058"/>
+        <route id="r15" edges="5to7 7to8 8to2" probability="0.058"/>
+        <route id="r15" edges="5to7 7to6 6to3" probability="0.058"/>
+        <route id="r16" edges="5to7 7to6 6to1" probability="0.058"/>
+
+
+    </routeDistribution>
+
+
+    <!--	<flow id="vehicle" type="dist1" begin="0" end="0" number="8" route="routedist1" />-->
+    <vehicle id="0" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="1" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="2" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="3" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="4" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="5" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="6" depart="0.00" type="dist1" route="routedist1"/>
+    <vehicle id="7" depart="0.00" type="dist1" route="routedist1"/>
 </routes>

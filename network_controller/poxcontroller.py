@@ -12,9 +12,17 @@ class PoxController(object):
         self.params = kwargs
 
     def run(self):
+        """
+        Start the controller
+        :return:
+        """
         self.start_pox()
 
     def start_pox(self):
+        """
+        Init the pox process based on the command passed
+        :return:
+        """
         _cmd = self.__mount_exec_cmd()
         pox = subprocess.Popen(_cmd,
                                stdin=subprocess.PIPE,

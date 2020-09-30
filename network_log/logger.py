@@ -4,6 +4,12 @@ import os
 
 class Logging:
     def __init__(self, **kwargs):
+        """
+        Logger tool to register all the information into the vehicles and rsus.
+        :param kwargs: filename: string name of file
+                       path: string path to the folder
+                       log: bool to register or not the info
+        """
         self.str_form = "%(asctime)s  %(name)s %(levelname)s %(message)s"
         self.__rm_privileges = dict()
         filename = ''
@@ -30,6 +36,13 @@ class Logging:
             raise IOError('No such file or directory: %s' % filename)
 
     def log(self, msg, lvl, flag=None):
+        """
+        Write the message into the log file.
+        :param msg: Message received from rsu or vehicle
+        :param lvl: type of log
+        :param flag: bool to log specific info
+        :return:
+        """
         if flag and self.is_log:
             if lvl == 'debug':
                 self.logger.debug(msg)
@@ -43,6 +56,11 @@ class Logging:
                 self.logger.critical(msg)
 
     def config_log(self, logger_name):
+        """
+        Configure all log features.
+        :param logger_name: define name to the log.
+        :return:
+        """
         self.logger = logging.getLogger(logger_name)
         self.logger.setLevel(level=logging.DEBUG)
 
@@ -54,9 +72,19 @@ class Logging:
         self.logger.addHandler(ch)
 
     def set_str_form(self, str_form):
+        """
+        Change the string format of the log
+        :param str_form: new string format
+        :return:
+        """
         self.str_form = str_form
 
     def do_runtime_packets(self, agent):
+        """
+        Register the runtime packets received from the vehicle or rsu
+        :param agent: VehicleAgent or RSUAgent
+        :return:
+        """
         if agent.agent_name not in self.__rm_privileges:
             self.__rm_privileges.update([(agent.agent_name, False)])
 

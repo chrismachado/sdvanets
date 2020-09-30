@@ -1,6 +1,9 @@
 class SubnetUtils:
-
     def __init__(self, **kwargs):
+        """
+        This tool is used to calculate the network.
+        :param kwargs: netmask
+        """
         try:
             if 'netmask' not in kwargs:
                 raise ValueError('Netmask not specified')
@@ -13,6 +16,10 @@ class SubnetUtils:
             pass
 
     def int_to_dotted_string(self):
+        """
+        Convert the int netmask to a string netmask with dots like standard pattern.
+        :return: String network
+        """
         binary = bin(self.netmask).split('0b')[1]
         aux = ''
         result = ''

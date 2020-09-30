@@ -12,6 +12,11 @@ __FILES_TO = 'map.sumocfg net.net.xml reroute.add.xml route.rou.xml file.setting
 
 
 def do_change_sumo_files(dir_opt):
+    """
+    Change the current files from mininet's sumo directory to the files in the specified directory
+    :param dir_opt: One of the folder inside sumo_files
+    :return: None
+    """
     if not os.path.exists(f'{ABS_PATH}/sumo_files/{dir_opt}/'):
         raise FileNotFoundError('Try with valid option.')
 
@@ -28,6 +33,10 @@ def do_change_sumo_files(dir_opt):
 
 
 def do_make():
+    """
+    Run the mininet wifi's make install command
+    :return: None
+    """
     print('Doing mininet make install ...')
     try:
         os.system(f'cd {MN_WIFI_PATH} && make install')
@@ -36,6 +45,10 @@ def do_make():
 
 
 def do_mn_c():
+    """
+    Run the mininet's mn -c command.
+    :return: None
+    """
     try:
         os.system('mn -c')
     except PermissionError:
@@ -43,6 +56,10 @@ def do_mn_c():
 
 
 def do_pox():
+    """
+    Run the pox controller.
+    :return: None
+    """
     try:
         from network_controller.poxcontroller import PoxController
 
@@ -60,10 +77,15 @@ def do_pox():
         raise PermissionError('Try run again as superuser.')
 
 
-def do_scenario(scenario='topology/minimal_scenario.py'):
+def do_scenario(scenario_path='topology/minimal_scenario.py'):
+    """
+    Run the selected scenario.
+    :param scenario_path: path to scenario python file
+    :return: None
+    """
     try:
         import subprocess
-        pox = subprocess.Popen(f'gnome-terminal -- python {scenario}',
+        pox = subprocess.Popen(f'gnome-terminal -- python {scenario_path}',
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
@@ -74,10 +96,14 @@ def do_scenario(scenario='topology/minimal_scenario.py'):
         raise PermissionError('Try run again as superuser.')
 
     except FileNotFoundError:
-        raise FileNotFoundError(f'Could not found your scenario: {scenario}')
+        raise FileNotFoundError(f'Could not found your scenario: {scenario_path}')
 
 
 def does_paths_exists():
+    """
+    Verify if all path exists.
+    :return: bool
+    """
     exists = os.path.exists(ABS_PATH)
     exists &= os.path.exists(MN_WIFI_PATH)
     exists &= os.path.exists(POX_PATH)

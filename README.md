@@ -20,7 +20,7 @@ After all, if that is your first try, you'll need to setup the mininet's sumo sc
 by running the following command:
 
 ```bash
-~/sdvanets$ sudo python -m sdvanets --set-sumo=1 -c
+~/sdvanets$ sudo python -m sdvanets --set-sumo=minimal
 ```
 
 After, you just need to run this command:

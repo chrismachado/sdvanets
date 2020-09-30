@@ -10,9 +10,13 @@ class ProcessKiller:
     def stop(self):
         process_list = self.get_process_list()
 
+        if not process_list:
+            print(f'No process with expression \'{self.expression}\' was found.')
+            return
+
         try:
             print('Trying to kill the process...')
-            for process in process_list:
+            for process in process_list[:-2]:
                 print(f'\tKilling process {process}')
                 os.kill(int(process[0]), signal.SIGKILL)
 
@@ -38,13 +42,15 @@ class ProcessKiller:
         for out in outs:
             out_aux = []
             for _out in out.strip().split(' '):
-                if _out != '':
+                if _out != '' and _out != []:
                     out_aux.append(_out)
-            out_str.append(out_aux)
+
+            if out_aux:
+                out_str.append(out_aux)
 
         return out_str
 
 
 if __name__ == '__main__':
-    expression = 'python|python2.7|mininet|run_controller|run_scenario'
+    expression = 'python2.7|mininet|scenario|poxcontroller|mininet-wifi'
     ProcessKiller(expression=expression).stop()

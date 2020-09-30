@@ -1,0 +1,11 @@
+<configuration>
+        <input>
+                <net-file value="net.net.xml"/>
+                <route-files value="route.rou.xml"/>
+        </input>
+        <time>
+                <begin value="0.00"/>
+                <end value="2000.00"/>
+        </time>
+</configuration>
+

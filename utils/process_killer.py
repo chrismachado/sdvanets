@@ -52,5 +52,5 @@ class ProcessKiller:
 
 
 if __name__ == '__main__':
-    expression = 'python2.7|mininet|scenario|poxcontroller|mininet-wifi'
+    expression = 'python2.7|mininet|scenario|poxcontroller|mininet-wifi|xterm'
     ProcessKiller(expression=expression).stop()

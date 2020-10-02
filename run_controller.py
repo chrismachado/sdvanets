@@ -7,7 +7,7 @@ LOG_NAME = 'pox'
 
 if __name__ == '__main__':
     pox = PoxController(cmd=f'{POX_PATH}/pox.py',
-                        script='forwarding.l3_learning',
+                        script='misc.sdvanet',
                         ofst='openflow.spanning_tree --no-flood --hold-down',
                         debug='log.level --DEBUG',
                         pretty_log='samples.pretty_log',

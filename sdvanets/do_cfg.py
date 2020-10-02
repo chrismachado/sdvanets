@@ -6,9 +6,8 @@ ABS_PATH = os.path.abspath('')
 MN_WIFI_PATH = os.path.abspath(f'../{DIR_MN}/')
 POX_PATH = os.path.abspath(f'../{DIR_POX}/')
 
-ALL_PATHS = [ABS_PATH, MN_WIFI_PATH, POX_PATH]
-
 __FILES_TO = 'map.sumocfg net.net.xml reroute.add.xml route.rou.xml file.settings.xml'
+__PATH_EXISTS = [ABS_PATH, MN_WIFI_PATH, POX_PATH]
 
 
 def do_change_sumo_files(dir_opt):
@@ -42,12 +41,12 @@ def do_mn_c():
         raise PermissionError('Try run again as superuser.')
 
 
-def do_pox():
+def do_pox(module='forwarding.sdvanet'):
     try:
         from network_controller.poxcontroller import PoxController
 
         pox = PoxController(cmd=f'{POX_PATH}/pox.py',
-                            script='forwarding.l3_learning',
+                            module=module,
                             ofst='openflow.spanning_tree --no-flood --hold-down',
                             debug='log.level --DEBUG',
                             pretty_log='samples.pretty_log',
@@ -78,8 +77,8 @@ def do_scenario(scenario='topology/minimal_scenario.py'):
 
 
 def does_paths_exists():
-    exists = os.path.exists(ABS_PATH)
-    exists &= os.path.exists(MN_WIFI_PATH)
-    exists &= os.path.exists(POX_PATH)
+    for CURRENT_PATH in __PATH_EXISTS:
+        if not os.path.exists(CURRENT_PATH):
+            raise FileExistsError(f'Verify if the path {CURRENT_PATH} is correct.')
 
-    return exists
+    return True

@@ -59,7 +59,7 @@ class ProcessKiller:
                 if _out != '' and _out != []:
                     out_aux.append(_out)
 
-            if ouConverte the string t_aux:
+            if out_aux:
                 out_str.append(out_aux)
 
         return out_str

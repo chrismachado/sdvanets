@@ -97,7 +97,7 @@ def topology():
 
     info("*** Starting telemetry\n")
     # Track the position of the nodes
-    nodes = net.cars + net.aps
+    nodes = net.cars
     net.telemetry(nodes=nodes, data_type='position',
                   min_x=0, min_y=0,
                   max_x=650, max_y=650)

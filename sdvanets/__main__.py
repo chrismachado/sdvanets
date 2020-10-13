@@ -25,11 +25,7 @@ if __name__ == '__main__':
         print(f'Defining mininet-wifi path {d_args["mn_path"]}')
         MN_WIFI_PATH = d_args['mn_path']
 
-    if not does_paths_exists():
-        print('Verify if the following paths are correct:')
-        for PATH in ALL_PATHS:
-            print(PATH)
-        exit(0)
+    does_paths_exists()
 
     if d_args['set_sumo']:
         print('Preparing mininet scenario into mininet-wifi...')

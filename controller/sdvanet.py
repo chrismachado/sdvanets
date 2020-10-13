@@ -31,6 +31,8 @@ from pox.lib.util import str_to_bool
 import time
 from datetime import date
 
+from pox.lib.packet import *
+
 log = core.getLogger()
 
 # We don't want to flood immediately when a switch connects.
@@ -38,9 +40,12 @@ log = core.getLogger()
 _flood_delay = 0
 
 
+# TODO: implementar as funcionalidades de verificacao do controlador
+# Por hora o controlador apenas esta imprimindo os pacotes recebidos pelas rsus
+
 def authorize(packet):
-    log.debug("\nSrc address %s ...\n" % (packet.src))
-    log.debug("\nDst address %s ...\n" % (packet.dst))
+    if isinstance(packet.payload, ipv4):
+        log.debug("Payload %s ...\n" % packet.payload.next.next)  # tcp content
 
     return True
 

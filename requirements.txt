@@ -10,3 +10,5 @@ pytz==2020.1
 scapy==2.4.3
 six==1.15.0
 subprocess32==3.5.4
+mininet~=2.3.0d6
+pox~=0.2.8

@@ -18,11 +18,11 @@ if __name__ == '__main__':
     d_args = vars(args)
 
     if d_args['mn_dirname']:
-        print(f'Defining mininet-wifi dirname {d_args["mn_dirname"]}')
+        print('Defining mininet-wifi dirname {%s}' % d_args["mn_dirname"])
         DIR_MN = d_args['mn_dirname']
 
     if d_args['mn_path']:
-        print(f'Defining mininet-wifi path {d_args["mn_path"]}')
+        print('Defining mininet-wifi path {%s}' % d_args["mn_path"])
         MN_WIFI_PATH = d_args['mn_path']
 
     if not does_paths_exists():
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     print('Running Scenario...')
     if d_args['scenario']:
-        print(f'Opening {d_args["scenario"]}.py...')
+        print('Opening {%s}.py...' % d_args["scenario"])
         do_scenario(d_args['scenario'])
     else:
         print('Setting to default scenario...')

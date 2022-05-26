@@ -10,7 +10,6 @@ from scapy.layers.inet import Ether, IP, ICMP
 from time import sleep
 from random import randint
 from threading import Thread
-from enum import IntEnum
 from network_log.logger import Logging
 from utils.subnetutils import SubnetUtils
 
@@ -319,7 +318,7 @@ class Agent:
     def neighbor_info(self):
         arp_table = []
         for key, value in self.neighbors_ip.items():
-            arp_table.append(f'{key},{value}')
+            arp_table.append('%s,%s' % (key, value))
         return str(arp_table)
 
     def response(self, packet):

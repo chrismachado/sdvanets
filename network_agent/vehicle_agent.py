@@ -9,7 +9,6 @@ from scapy.layers.inet import Ether, IP, ICMP
 from time import sleep
 from random import randint
 from threading import Thread
-from enum import IntEnum
 from network_log.logger import Logging
 from utils.subnetutils import SubnetUtils
 from .default_agent import Agent

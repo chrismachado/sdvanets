@@ -74,7 +74,10 @@ def topology():
     # change config_file name if you want
     # use --random for active the probability attribute of sumo
     net.useExternalProgram(program=sumo, port=8813,
-                           config_file='map.sumocfg --random')
+                           # config_file='map.sumocfg',
+                           extra_params=["--start --delay 1000"],
+                           clients=1, exec_order=0
+                           )
 
     info("*** Starting network\n")
     net.build()
@@ -103,16 +106,18 @@ def topology():
     info("*** Starting telemetry\n")
     # Track the position of the nodes
     nodes = net.cars + net.aps
+    print(nodes)
     net.telemetry(nodes=nodes, data_type='position',
                   min_x=0, min_y=0,
                   max_x=850, max_y=650)
 
     info("*** Starting agents\n")
     for car in net.cars:
-        if car.name in ['rsu1', 'rsu2', 'rsu3', 'rsu4']:
-            car.cmd(f'xterm -e python -m network_agent --log -srnm --filename {car} --name={car} --verbose --rsu &')
+        if car.name in rsus:
+            car.cmd('xterm -e python3 -m network_agent '
+                    '--log -srnm --filename %s --name=%s --verbose --rsu &' % (car, car))
         else:
-            car.cmd(f'xterm -e python -m network_agent --name={car} -srmn --verbose &')
+            car.cmd('xterm -e python3 -m network_agent --name=%s -srmn --verbose &' % car)
 
     info("*** Running CLI\n")
     CLI(net)

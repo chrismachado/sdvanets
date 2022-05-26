@@ -11,23 +11,26 @@ class ProcessKiller:
         process_list = self.get_process_list()
 
         if not process_list:
-            print(f'No process with expression \'{self.expression}\' was found.')
+            print('No process with expression \'{%s}\' was found.' % self.expression)
             return
 
         try:
             print('Trying to kill the process...')
+            if len(process_list) <= 2:
+                print('Process list is empty.')
+
             for process in process_list[:-2]:
-                print(f'\tKilling process {process}')
+                print('\tKilling process {%s}' % process)
                 os.kill(int(process[0]), signal.SIGKILL)
 
         except PermissionError:
             raise PermissionError('Try again with sudo')
 
         except ProcessLookupError:
-            raise ProcessLookupError(f'Can\'t find the process {process[0]}')
+            raise ProcessLookupError('Can\'t find the process {%s}' % process[0])
 
     def get_process_list(self):
-        ps = subprocess.Popen(f'ps -ax | grep -E \'{self.expression}\'',
+        ps = subprocess.Popen('ps -ax | grep -E \'{%s}\'' % self.expression,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               shell=True)

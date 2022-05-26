@@ -2,6 +2,7 @@
 	<input>
 		<net-file value="net.net.xml"/>
 		<route-files value="route.rou.xml"/>
+		<!-- <additional-files value="reroute.add.xml"/> -->
         <gui-settings-file value="file.settings.xml" />
 	</input>
 	<time>
@@ -9,9 +10,7 @@
 		<end value="2000.00"/>
 		<step-length value="0.1"/>
 	</time>
-    <traci_server>
-         <remote-port value="8813"/>
-    </traci_server>
-
-
+		<traci_server>
+	        <!-- <remote-port value="8813"/> -->
+		</traci_server>
 </configuration>

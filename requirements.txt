@@ -1,6 +1,6 @@
 backports.functools-lru-cache==1.6.1
 cycler==0.10.0
-enum==0.4.7
+kiwisolver==1.1.0
 kiwisolver==1.1.0
 matplotlib==2.2.5
 numpy==1.16.6
@@ -10,3 +10,6 @@ pytz==2020.1
 scapy==2.4.3
 six==1.15.0
 subprocess32==3.5.4
+
+mininet~=2.3.0.dev6
+enum34~=1.1.10

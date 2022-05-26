@@ -7,7 +7,7 @@ class LogCleaner:
 
     def clean(self):
         try:
-            cmd = f'cd {self.path} && rm -rf -v log_files/*'
+            cmd = 'cd %s && rm -rf -v log_files/*' % self.path
             print(cmd)
             os.system(cmd)
         except PermissionError:
